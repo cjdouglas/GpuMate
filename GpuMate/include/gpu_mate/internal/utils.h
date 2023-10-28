@@ -9,8 +9,8 @@
 #include <hip/hip_runtime.h>
 #include <rocblas/rocblas.h>
 
-#ifndef HIP_CHECK
-#define HIP_CHECK(error)                                          \
+#ifndef RUNTIME_CHECK
+#define RUNTIME_CHECK(error)                                      \
   if (error != hipSuccess) {                                      \
     fprintf(stderr, "Hip error: '%s'(%d) at %s:%d\n",             \
             hipGetErrorString(error), error, __FILE__, __LINE__); \
@@ -31,8 +31,8 @@
 #include <cublas.h>
 #include <cuda_runtime.h>
 
-#ifndef CUDA_CHECK
-#define CUDA_CHECK(error)                                          \
+#ifndef RUNTIME_CHECK
+#define RUNTIME_CHECK(error)                                       \
   if (error != cudaSuccess) {                                      \
     fprintf(stderr, "Cuda error: '%s'(%d) at %s:%d\n",             \
             cudaGetErrorString(error), error, __FILE__, __LINE__); \

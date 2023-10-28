@@ -18,6 +18,14 @@ option(
 )
 
 option(
+  GM_EXPORT_SHARED
+  "If ON, GpuMate will build a shared library."
+  OFF
+)
+
+# TODO: add GM_IMPORT_SHARED
+
+option(
   GM_BUILD_TESTS
   "If ON, GpuMate will build all tests."
   OFF

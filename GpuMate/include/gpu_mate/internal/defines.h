@@ -8,10 +8,10 @@
 #endif
 
 #if defined(_WIN32) || defined(_WIN64)
-#ifdef GPU_MATE_BUILD_SHARED
-#define GPU_MATE_API __declspec(dllimport)
-#elif defined(GPU_MATE_USE_SHARED)
+#ifdef GM_EXPORT_SHARED
 #define GPU_MATE_API __declspec(dllexport)
+#elif defined(GM_IMPORT_SHARED)
+#define GPU_MATE_API __declspec(dllimport)
 #else
 #define GPU_MATE_API
 #endif
