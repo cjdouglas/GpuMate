@@ -10,7 +10,7 @@
             "cacheVariables": {
                 "CMAKE_C_COMPILER": "cl.exe",
                 "CMAKE_CXX_COMPILER": "cl.exe",
-                "GM_VENDOR": "nvidia",
+                "GM_VENDOR": "amd",
                 "GM_BUILD_TESTS": "OFF"
             },
             "condition": {
