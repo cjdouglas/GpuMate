@@ -13,7 +13,7 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 option(
   GM_VENDOR
-  "The vendor to build the libraries for, should be either 'amd' or 'nvidia'."
+  "The vendor to build the libraries for, should be either AMD or NVIDIA."
   "unspecified"
 )
 
