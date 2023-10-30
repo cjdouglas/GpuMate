@@ -4,25 +4,22 @@
 #include <cstdio>
 #include <cstdlib>
 
+#include "gpu_mate/gpu_runtime.h"
+
+using gpu_mate::runtime::gpuError_t;
+using gpu_mate::runtime::gpuGetErrorString;
+
 #ifdef __GM_PLATFORM_AMD__
 
 #include <hip/hip_runtime.h>
 #include <rocblas/rocblas.h>
 
-#ifndef RUNTIME_CHECK
-#define RUNTIME_CHECK(error)                                      \
-  if (error != hipSuccess) {                                      \
+#ifndef GPU_CHECK
+#define GPU_CHECK(error)                                          \
+  if (error != gpuError_t::gpuSuccess) {                          \
     fprintf(stderr, "Hip error: '%s'(%d) at %s:%d\n",             \
-            hipGetErrorString(error), error, __FILE__, __LINE__); \
+            gpuGetErrorString(error), error, __FILE__, __LINE__); \
     exit(EXIT_FAILURE);                                           \
-  }
-#endif
-
-#ifndef ROCBLAS_CHECK
-#define ROCBLAS_CHECK(error)             \
-  if (error != rocblas_status_success) { \
-    fprintf(stderr, "rocBLAS error");    \
-    exit(EXIT_FAILURE);                  \
   }
 #endif
 
@@ -31,20 +28,12 @@
 #include <cublas.h>
 #include <cuda_runtime.h>
 
-#ifndef RUNTIME_CHECK
-#define RUNTIME_CHECK(error)                                       \
-  if (error != cudaSuccess) {                                      \
-    fprintf(stderr, "Cuda error: '%s'(%d) at %s:%d\n",             \
-            cudaGetErrorString(error), error, __FILE__, __LINE__); \
-    exit(EXIT_FAILURE);                                            \
-  }
-#endif
-
-#ifndef CUBLAS_CHECK
-#define CUBLAS_CHECK(error)             \
-  if (error != CUBLAS_STATUS_SUCCESS) { \
-    fprintf(stderr, "cuBLAS error");    \
-    exit(EXIT_FAILURE);                 \
+#ifndef GPU_CHECK
+#define GPU_CHECK(error)                                          \
+  if (error != gpuError_t::gpuSuccess) {                          \
+    fprintf(stderr, "Cuda error: '%s'(%d) at %s:%d\n",            \
+            gpuGetErrorString(error), error, __FILE__, __LINE__); \
+    exit(EXIT_FAILURE);                                           \
   }
 #endif
 

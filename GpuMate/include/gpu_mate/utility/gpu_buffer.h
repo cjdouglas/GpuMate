@@ -4,7 +4,7 @@
 #include "gpu_mate/gpu_runtime.h"
 #include "gpu_mate/internal/utils.h"
 
-using gpu_mate::runtime::GpuMemcpyKind;
+using gpu_mate::runtime::gpuMemcpyKind;
 
 namespace gpu_mate {
 namespace utility {
@@ -18,8 +18,8 @@ class GpuBuffer {
   GpuBuffer& operator=(GpuBuffer&&) noexcept;
   ~GpuBuffer();
 
-  void CopyFrom(const void* data, size_t size, GpuMemcpyKind copy_kind);
-  void CopyTo(void* dst, GpuMemcpyKind copy_kind);
+  void CopyFrom(const void* data, size_t size, gpuMemcpyKind copy_kind);
+  void CopyTo(void* dst, gpuMemcpyKind copy_kind);
   void* operator*();
 
  private:

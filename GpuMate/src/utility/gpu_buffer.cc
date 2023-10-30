@@ -39,28 +39,28 @@ GpuBuffer& GpuBuffer::operator=(GpuBuffer&& other) noexcept {
 GpuBuffer::~GpuBuffer() { Free(); }
 
 void GpuBuffer::CopyFrom(const void* data, const size_t size,
-                         const GpuMemcpyKind copy_kind) {
+                         const gpuMemcpyKind copy_kind) {
   if (initialized_) {
     Free();
   }
 
-  RUNTIME_CHECK(runtime::GpuMalloc(&handle_, size));
-  RUNTIME_CHECK(runtime::GpuMemcpy(handle_, data, size, copy_kind));
+  GPU_CHECK(runtime::gpuMalloc(&handle_, size));
+  GPU_CHECK(runtime::gpuMemcpy(handle_, data, size, copy_kind));
   size_ = size;
   initialized_ = true;
 }
 
-void GpuBuffer::CopyTo(void* dst, const GpuMemcpyKind copy_kind) {
+void GpuBuffer::CopyTo(void* dst, const gpuMemcpyKind copy_kind) {
   if (!initialized_) {
     throw std::logic_error("cannot copy uninitialized buffer");
   }
 
-  RUNTIME_CHECK(runtime::GpuMemcpy(dst, handle_, size_, copy_kind));
+  GPU_CHECK(runtime::gpuMemcpy(dst, handle_, size_, copy_kind));
 }
 
 void GpuBuffer::Free() {
   if (initialized_) {
-    RUNTIME_CHECK(runtime::GpuFree(handle_));
+    GPU_CHECK(runtime::gpuFree(handle_));
     handle_ = nullptr;
     size_ = 0;
     initialized_ = false;

@@ -19,7 +19,7 @@ else()
     src/nvidia/nvidia_runtime_impl.cc)
 endif()
 
-if (GM_EXPORT_SHARED)
+if (GM_DLL_EXPORT OR GM_DLL_IMPORT)
   # TODO: add versioning
   add_library(GpuMate SHARED ${SOURCES})
 else()
