@@ -10,7 +10,6 @@ namespace gpu_mate {
 namespace utility {
 class GpuBuffer {
  public:
-  explicit GpuBuffer() = default;
   GpuBuffer(const void* data = nullptr, size_t size = 0);
   GpuBuffer(const GpuBuffer&) = delete;
   GpuBuffer& operator=(const GpuBuffer&) = delete;

@@ -318,6 +318,30 @@ static cudaMemcpyKind mapMemcpyKind(const gpuMemcpyKind copy_kind) {
 }
 }  // namespace
 
+// Device management
+
+GPU_MATE_API gpuError_t gpuGetDevice(int* id) {
+  return cudaErrorToGpuError(cudaGetDevice(id));
+}
+
+GPU_MATE_API gpuError_t gpuSetDevice(int id) {
+  return cudaErrorToGpuError(cudaSetDevice(id));
+}
+
+GPU_MATE_API gpuError_t gpuGetDeviceCount(int* count) {
+  return cudaErrorToGpuError(cudaGetDeviceCount(count));
+}
+
+GPU_MATE_API gpuError_t gpuDeviceSynchronize() {
+  return cudaErrorToGpuError(cudaDeviceSynchronize());
+}
+
+GPU_MATE_API gpuError_t gpuDeviceReset() {
+  return cudaErrorToGpuError(cudaDeviceReset());
+}
+
+// Error handling
+
 gpuError_t gpuGetLastError() {
   return cudaErrorToGpuError(cudaGetLastError());
 };
@@ -333,6 +357,8 @@ const char* gpuGetErrorName(gpuError_t error) {
 const char* gpuGetErrorString(gpuError_t error) {
   return cudaGetErrorString(gpuErrorToCudaError(error));
 }
+
+// Memory management
 
 gpuError_t gpuMalloc(void** ptr, const size_t size) {
   return cudaErrorToGpuError(cudaMalloc(ptr, size));

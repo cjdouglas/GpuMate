@@ -95,6 +95,20 @@ enum class gpuMemcpyKind {
   gpuMemcpyDefault = 4,
 };
 
+// Device management
+
+GPU_MATE_API gpuError_t gpuGetDevice(int* id);
+
+GPU_MATE_API gpuError_t gpuSetDevice(int id);
+
+GPU_MATE_API gpuError_t gpuGetDeviceCount(int* count);
+
+GPU_MATE_API gpuError_t gpuDeviceSynchronize();
+
+GPU_MATE_API gpuError_t gpuDeviceReset();
+
+// Error handling
+
 GPU_MATE_API gpuError_t gpuGetLastError();
 
 GPU_MATE_API gpuError_t gpuPeekAtLastError();
@@ -102,6 +116,8 @@ GPU_MATE_API gpuError_t gpuPeekAtLastError();
 GPU_MATE_API const char* gpuGetErrorName(gpuError_t error);
 
 GPU_MATE_API const char* gpuGetErrorString(gpuError_t error);
+
+// Memory management
 
 GPU_MATE_API gpuError_t gpuMalloc(void** ptr, const size_t size);
 

@@ -15,11 +15,12 @@ using gpu_mate::runtime::gpuGetErrorString;
 #include <rocblas/rocblas.h>
 
 #ifndef GPU_CHECK
-#define GPU_CHECK(error)                                          \
-  if (error != gpuError_t::gpuSuccess) {                          \
-    fprintf(stderr, "Hip error: '%s'(%d) at %s:%d\n",             \
-            gpuGetErrorString(error), error, __FILE__, __LINE__); \
-    exit(EXIT_FAILURE);                                           \
+#define GPU_CHECK(error)                                      \
+  if (error != gpuError_t::gpuSuccess) {                      \
+    const int e = static_cast<int>(error);                    \
+    fprintf(stderr, "Hip error: '%s'(%d) at %s:%d\n",         \
+            gpuGetErrorString(error), e, __FILE__, __LINE__); \
+    exit(EXIT_FAILURE);                                       \
   }
 #endif
 
@@ -29,11 +30,12 @@ using gpu_mate::runtime::gpuGetErrorString;
 #include <cuda_runtime.h>
 
 #ifndef GPU_CHECK
-#define GPU_CHECK(error)                                          \
-  if (error != gpuError_t::gpuSuccess) {                          \
-    fprintf(stderr, "Cuda error: '%s'(%d) at %s:%d\n",            \
-            gpuGetErrorString(error), error, __FILE__, __LINE__); \
-    exit(EXIT_FAILURE);                                           \
+#define GPU_CHECK(error)                                      \
+  if (error != gpuError_t::gpuSuccess) {                      \
+    const int e = static_cast<int>(error);                    \
+    fprintf(stderr, "Cuda error: '%s'(%d) at %s:%d\n",        \
+            gpuGetErrorString(error), e, __FILE__, __LINE__); \
+    exit(EXIT_FAILURE);                                       \
   }
 #endif
 

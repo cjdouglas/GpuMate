@@ -1,10 +1,12 @@
 #include <gtest/gtest.h>
 
+#include <climits>
+
 #include "gpu_mate/gpu_runtime.h"
 
 using namespace gpu_mate::runtime;
 
-TEST(TestRuntime, TestSimpleMalloc) {
+TEST(TestRuntimeMemory, TestSimpleMalloc) {
   void* ptr;
   const size_t size = 4;
   EXPECT_EQ(gpuMalloc(&ptr, size), gpuError_t::gpuSuccess);
@@ -12,7 +14,7 @@ TEST(TestRuntime, TestSimpleMalloc) {
   EXPECT_EQ(gpuFree(ptr), gpuError_t::gpuSuccess);
 }
 
-TEST(TestRuntime, TestZeroMalloc) {
+TEST(TestRuntimeMemory, TestZeroMalloc) {
   void* ptr;
   const size_t size = 0;
   EXPECT_EQ(gpuMalloc(&ptr, size), gpuError_t::gpuSuccess);
@@ -20,7 +22,7 @@ TEST(TestRuntime, TestZeroMalloc) {
   EXPECT_EQ(gpuFree(ptr), gpuError_t::gpuSuccess);
 }
 
-TEST(TestRuntime, TestLoopMalloc) {
+TEST(TestRuntimeMemory, TestLoopMalloc) {
   void* ptr;
   const size_t size = 4;
   for (int i = 0; i < 5; ++i) {
@@ -30,18 +32,18 @@ TEST(TestRuntime, TestLoopMalloc) {
   }
 }
 
-TEST(TestRuntime, TestBadMalloc) {
+TEST(TestRuntimeMemory, TestBadMalloc) {
   void* ptr;
   const size_t size = ULLONG_MAX;
   EXPECT_EQ(gpuMalloc(&ptr, size), gpuError_t::gpuErrorOutOfMemory);
 }
 
-TEST(TestRuntime, TestNullFree) {
+TEST(TestRuntimeMemory, TestNullFree) {
   void* ptr = nullptr;
   EXPECT_EQ(gpuFree(ptr), gpuError_t::gpuSuccess);
 }
 
-TEST(TestRuntime, TestDoubleFree) {
+TEST(TestRuntimeMemory, TestDoubleFree) {
   void* ptr;
   const size_t size = 4;
   EXPECT_EQ(gpuMalloc(&ptr, size), gpuError_t::gpuSuccess);
@@ -49,7 +51,7 @@ TEST(TestRuntime, TestDoubleFree) {
   EXPECT_EQ(gpuFree(ptr), gpuError_t::gpuErrorInvalidValue);
 }
 
-TEST(TestRuntime, TestMemcpyH2H) {
+TEST(TestRuntimeMemory, TestMemcpyH2H) {
   float* ptr = new float(0);
   const float f = 6.9f;
   const size_t size = sizeof(float);
@@ -59,7 +61,7 @@ TEST(TestRuntime, TestMemcpyH2H) {
   delete ptr;
 }
 
-TEST(TestRuntime, TestMemcpyH2D) {
+TEST(TestRuntimeMemory, TestMemcpyH2D) {
   float* ptr;
   const float f1 = 6.9f;
   float f2 = 0;
@@ -76,7 +78,7 @@ TEST(TestRuntime, TestMemcpyH2D) {
   EXPECT_EQ(gpuFree(ptr), gpuError_t::gpuSuccess);
 }
 
-TEST(TestRuntime, TestMemcpyD2D) {
+TEST(TestRuntimeMemory, TestMemcpyD2D) {
   float *ptr1, *ptr2;
   const float f1 = 6.9f;
   float f2 = 0;

@@ -320,6 +320,26 @@ static hipMemcpyKind mapMemcpyKind(const gpuMemcpyKind copy_kind) {
 }
 }  // namespace
 
+// Device management
+
+gpuError_t gpuGetDevice(int* id) {
+  return hipErrorToGpuError(hipGetDevice(id));
+}
+
+gpuError_t gpuSetDevice(int id) { return hipErrorToGpuError(hipSetDevice(id)); }
+
+gpuError_t gpuGetDeviceCount(int* count) {
+  return hipErrorToGpuError(hipGetDeviceCount(count));
+}
+
+gpuError_t gpuDeviceSynchronize() {
+  return hipErrorToGpuError(hipDeviceSynchronize());
+}
+
+gpuError_t gpuDeviceReset() { return hipErrorToGpuError(hipDeviceReset()); }
+
+// Error handling
+
 gpuError_t gpuGetLastError() { return hipErrorToGpuError(hipGetLastError()); }
 
 gpuError_t gpuPeekAtLastError() {
@@ -333,6 +353,8 @@ const char* gpuGetErrorName(gpuError_t error) {
 const char* gpuGetErrorString(gpuError_t error) {
   return hipGetErrorString(gpuErrorToHipError(error));
 }
+
+// Memory management
 
 gpuError_t gpuMalloc(void** ptr, const size_t size) {
   return hipErrorToGpuError(hipMalloc(ptr, size));
