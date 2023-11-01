@@ -11,7 +11,7 @@
                 "CMAKE_C_COMPILER": "cl.exe",
                 "CMAKE_CXX_COMPILER": "cl.exe",
                 "GM_EXPORT_SHARED": "OFF",
-                "GM_VENDOR": "NVIDIA",
+                "GM_VENDOR": "AMD",
                 "GM_BUILD_TESTS": "ON"
             },
             "condition": {
