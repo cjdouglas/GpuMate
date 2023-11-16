@@ -1,13 +1,6 @@
-#ifndef GPU_MATE_GPU_RUNTIME_H
-#define GPU_MATE_GPU_RUNTIME_H
+#pragma once
 
 #include "gpu_mate/internal/defines.h"
-
-#ifdef __GM_PLATFORM_AMD__
-#include <hip/hip_runtime.h>
-#else
-#include <cuda_runtime.h>
-#endif
 
 namespace gpu_mate {
 namespace runtime {
@@ -128,5 +121,3 @@ GPU_MATE_API gpuError_t gpuFree(void* ptr);
 
 }  // namespace runtime
 }  // namespace gpu_mate
-
-#endif  // GPU_MATE_GPU_RUNTIME_H

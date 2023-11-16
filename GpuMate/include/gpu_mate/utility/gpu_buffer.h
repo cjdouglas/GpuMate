@@ -1,5 +1,4 @@
-#ifndef GPU_MATE_UTILITIES_GPU_BUFFER_H
-#define GPU_MATE_UTILITIES_GPU_BUFFER_H
+#pragma once
 
 #include "gpu_mate/gpu_runtime.h"
 #include "gpu_mate/internal/utils.h"
@@ -29,5 +28,3 @@ class GpuBuffer {
 };
 }  // namespace utility
 }  // namespace gpu_mate
-
-#endif  // GPU_MATE_UTILITIES_GPU_BUFFER_H

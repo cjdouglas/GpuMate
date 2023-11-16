@@ -11,12 +11,14 @@ if (GM_VENDOR STREQUAL "AMD")
   list(
     APPEND
     SOURCES
-    src/amd/amd_runtime_impl.cc)
+    src/amd/amd_runtime_impl.cc
+    src/amd/amd_blas_impl.cc)
 else()
   list(
     APPEND
     SOURCES
-    src/nvidia/nvidia_runtime_impl.cc)
+    src/nvidia/nvidia_runtime_impl.cc
+    src/nvidia/nvidia_blas_impl.cc)
 endif()
 
 if (GM_DLL_EXPORT OR GM_DLL_IMPORT)
@@ -43,6 +45,7 @@ if (GM_BUILD_TESTS)
   enable_testing()
   set(
     TEST_SOURCES
+    test/test_blas.cc
     test/test_runtime_error.cc
     test/test_runtime_device.cc
     test/test_runtime_memory.cc)

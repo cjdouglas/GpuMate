@@ -1,5 +1,4 @@
-#ifndef GPU_MATE_INTERNAL_DEFINES_H
-#define GPU_MATE_INTERNAL_DEFINES_H
+#pragma once
 
 #if defined __GM_PLATFORM_AMD__ && defined __GM_PLATFORM_NVIDIA__
 #error only one of __GM_PLATFORM_AMD__ and __GM_PLATFORM_NVIDIA__ can be defined!
@@ -18,5 +17,3 @@
 #else
 #define GPU_MATE_API
 #endif
-
-#endif  // GPU_MATE_INTERNAL_DEFINES_H
