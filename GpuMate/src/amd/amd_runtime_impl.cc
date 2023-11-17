@@ -7,366 +7,374 @@ namespace gpu_mate {
 namespace runtime {
 namespace {
 
-static gpuError_t hipErrorToGpuError(const hipError_t error) {
+static GpuError HipToGpuError(const hipError_t error) {
   switch (error) {
     case hipSuccess:
-      return gpuError_t::gpuSuccess;
+      return GpuError::success;
     case hipErrorInvalidValue:
-      return gpuError_t::gpuErrorInvalidValue;
+      return GpuError::invalidValue;
     case hipErrorOutOfMemory:
-      return gpuError_t::gpuErrorOutOfMemory;
+      return GpuError::outOfMemory;
     case hipErrorNotInitialized:
-      return gpuError_t::gpuErrorNotInitialized;
+      return GpuError::notInitialized;
     case hipErrorDeinitialized:
-      return gpuError_t::gpuErrorDeinitialized;
+      return GpuError::deinitialized;
     case hipErrorProfilerDisabled:
-      return gpuError_t::gpuErrorProfilerDisabled;
+      return GpuError::profilerDisabled;
     case hipErrorProfilerNotInitialized:
-      return gpuError_t::gpuErrorProfilerNotInitialized;
+      return GpuError::profilerNotInitialized;
     case hipErrorProfilerAlreadyStarted:
-      return gpuError_t::gpuErrorProfilerAlreadyStarted;
+      return GpuError::profilerAlreadyStarted;
     case hipErrorProfilerAlreadyStopped:
-      return gpuError_t::gpuErrorProfilerAlreadyStopped;
+      return GpuError::profilerAlreadyStopped;
     case hipErrorInvalidConfiguration:
-      return gpuError_t::gpuErrorInvalidConfiguration;
+      return GpuError::invalidConfiguration;
     case hipErrorInvalidPitchValue:
-      return gpuError_t::gpuErrorInvalidPitchValue;
+      return GpuError::invalidPitchValue;
     case hipErrorInvalidSymbol:
-      return gpuError_t::gpuErrorInvalidSymbol;
+      return GpuError::invalidSymbol;
     case hipErrorInvalidDevicePointer:
-      return gpuError_t::gpuErrorInvalidDevicePointer;
+      return GpuError::invalidDevicePointer;
     case hipErrorInvalidMemcpyDirection:
-      return gpuError_t::gpuErrorInvalidMemcpyDirection;
+      return GpuError::invalidMemcpyDirection;
     case hipErrorInsufficientDriver:
-      return gpuError_t::gpuErrorInsufficientDriver;
+      return GpuError::insufficientDriver;
     case hipErrorMissingConfiguration:
-      return gpuError_t::gpuErrorMissingConfiguration;
+      return GpuError::missingConfiguration;
     case hipErrorPriorLaunchFailure:
-      return gpuError_t::gpuErrorPriorLaunchFailure;
+      return GpuError::priorLaunchFailure;
     case hipErrorInvalidDeviceFunction:
-      return gpuError_t::gpuErrorInvalidDeviceFunction;
+      return GpuError::invalidDeviceFunction;
     case hipErrorNoDevice:
-      return gpuError_t::gpuErrorNoDevice;
+      return GpuError::noDevice;
     case hipErrorInvalidDevice:
-      return gpuError_t::gpuErrorInvalidDevice;
+      return GpuError::invalidDevice;
     case hipErrorInvalidImage:
-      return gpuError_t::gpuErrorInvalidImage;
+      return GpuError::invalidImage;
     case hipErrorInvalidContext:
-      return gpuError_t::gpuErrorInvalidContext;
+      return GpuError::invalidContext;
     case hipErrorContextAlreadyCurrent:
-      return gpuError_t::gpuErrorContextAlreadyCurrent;
+      return GpuError::contextAlreadyCurrent;
     case hipErrorMapFailed:
-      return gpuError_t::gpuErrorMapFailed;
+      return GpuError::mapFailed;
     case hipErrorUnmapFailed:
-      return gpuError_t::gpuErrorUnmapFailed;
+      return GpuError::unmapFailed;
     case hipErrorArrayIsMapped:
-      return gpuError_t::gpuErrorArrayIsMapped;
+      return GpuError::arrayIsMapped;
     case hipErrorAlreadyMapped:
-      return gpuError_t::gpuErrorAlreadyMapped;
+      return GpuError::alreadyMapped;
     case hipErrorNoBinaryForGpu:
-      return gpuError_t::gpuErrorNoBinaryForGpu;
+      return GpuError::noBinaryForGpu;
     case hipErrorAlreadyAcquired:
-      return gpuError_t::gpuErrorAlreadyAcquired;
+      return GpuError::alreadyAcquired;
     case hipErrorNotMapped:
-      return gpuError_t::gpuErrorNotMapped;
+      return GpuError::notMapped;
     case hipErrorNotMappedAsArray:
-      return gpuError_t::gpuErrorNotMappedAsArray;
+      return GpuError::notMappedAsArray;
     case hipErrorNotMappedAsPointer:
-      return gpuError_t::gpuErrorNotMappedAsPointer;
+      return GpuError::notMappedAsPointer;
     case hipErrorECCNotCorrectable:
-      return gpuError_t::gpuErrorECCNotCorrectable;
+      return GpuError::eccNotCorrectable;
     case hipErrorUnsupportedLimit:
-      return gpuError_t::gpuErrorUnsupportedLimit;
+      return GpuError::unsupportedLimit;
     case hipErrorContextAlreadyInUse:
-      return gpuError_t::gpuErrorContextAlreadyInUse;
+      return GpuError::contextAlreadyInUse;
     case hipErrorPeerAccessUnsupported:
-      return gpuError_t::gpuErrorPeerAccessUnsupported;
+      return GpuError::peerAccessUnsupported;
     case hipErrorInvalidKernelFile:
-      return gpuError_t::gpuErrorInvalidKernelFile;
+      return GpuError::invalidKernelFile;
     case hipErrorInvalidGraphicsContext:
-      return gpuError_t::gpuErrorInvalidGraphicsContext;
+      return GpuError::invalidGraphicsContext;
     case hipErrorInvalidSource:
-      return gpuError_t::gpuErrorInvalidSource;
+      return GpuError::invalidSource;
     case hipErrorFileNotFound:
-      return gpuError_t::gpuErrorFileNotFound;
+      return GpuError::fileNotFound;
     case hipErrorSharedObjectSymbolNotFound:
-      return gpuError_t::gpuErrorSharedObjectSymbolNotFound;
+      return GpuError::sharedObjectSymbolNotFound;
     case hipErrorSharedObjectInitFailed:
-      return gpuError_t::gpuErrorSharedObjectInitFailed;
+      return GpuError::sharedObjectInitFailed;
     case hipErrorOperatingSystem:
-      return gpuError_t::gpuErrorOperatingSystem;
+      return GpuError::operatingSystem;
     case hipErrorInvalidHandle:
-      return gpuError_t::gpuErrorInvalidHandle;
+      return GpuError::invalidHandle;
     case hipErrorIllegalState:
-      return gpuError_t::gpuErrorIllegalState;
+      return GpuError::illegalState;
     case hipErrorNotFound:
-      return gpuError_t::gpuErrorNotFound;
+      return GpuError::notFound;
     case hipErrorNotReady:
-      return gpuError_t::gpuErrorNotReady;
+      return GpuError::notReady;
     case hipErrorIllegalAddress:
-      return gpuError_t::gpuErrorIllegalAddress;
+      return GpuError::illegalAddress;
     case hipErrorLaunchOutOfResources:
-      return gpuError_t::gpuErrorLaunchOutOfResources;
+      return GpuError::launchOutOfResources;
     case hipErrorLaunchTimeOut:
-      return gpuError_t::gpuErrorLaunchTimeOut;
+      return GpuError::launchTimeOut;
     case hipErrorPeerAccessAlreadyEnabled:
-      return gpuError_t::gpuErrorPeerAccessAlreadyEnabled;
+      return GpuError::peerAccessAlreadyEnabled;
     case hipErrorPeerAccessNotEnabled:
-      return gpuError_t::gpuErrorPeerAccessNotEnabled;
+      return GpuError::peerAccessNotEnabled;
     case hipErrorSetOnActiveProcess:
-      return gpuError_t::gpuErrorSetOnActiveProcess;
+      return GpuError::setOnActiveProcess;
     case hipErrorContextIsDestroyed:
-      return gpuError_t::gpuErrorContextIsDestroyed;
+      return GpuError::contextIsDestroyed;
     case hipErrorAssert:
-      return gpuError_t::gpuErrorAssert;
+      return GpuError::assert;
     case hipErrorHostMemoryAlreadyRegistered:
-      return gpuError_t::gpuErrorHostMemoryAlreadyRegistered;
+      return GpuError::hostMemoryAlreadyRegistered;
     case hipErrorHostMemoryNotRegistered:
-      return gpuError_t::gpuErrorHostMemoryNotRegistered;
+      return GpuError::hostMemoryNotRegistered;
     case hipErrorLaunchFailure:
-      return gpuError_t::gpuErrorLaunchFailure;
+      return GpuError::launchFailure;
     case hipErrorCooperativeLaunchTooLarge:
-      return gpuError_t::gpuErrorCooperativeLaunchTooLarge;
+      return GpuError::cooperativeLaunchTooLarge;
     case hipErrorNotSupported:
-      return gpuError_t::gpuErrorNotSupported;
+      return GpuError::notSupported;
     case hipErrorStreamCaptureUnsupported:
-      return gpuError_t::gpuErrorStreamCaptureUnsupported;
+      return GpuError::streamCaptureUnsupported;
     case hipErrorStreamCaptureInvalidated:
-      return gpuError_t::gpuErrorStreamCaptureInvalidated;
+      return GpuError::streamCaptureInvalidated;
     case hipErrorStreamCaptureMerge:
-      return gpuError_t::gpuErrorStreamCaptureMerge;
+      return GpuError::streamCaptureMerge;
     case hipErrorStreamCaptureUnmatched:
-      return gpuError_t::gpuErrorStreamCaptureUnmatched;
+      return GpuError::streamCaptureUnmatched;
     case hipErrorStreamCaptureUnjoined:
-      return gpuError_t::gpuErrorStreamCaptureUnjoined;
+      return GpuError::streamCaptureUnjoined;
     case hipErrorStreamCaptureIsolation:
-      return gpuError_t::gpuErrorStreamCaptureIsolation;
+      return GpuError::streamCaptureIsolation;
     case hipErrorStreamCaptureImplicit:
-      return gpuError_t::gpuErrorStreamCaptureImplicit;
+      return GpuError::streamCaptureImplicit;
     case hipErrorCapturedEvent:
-      return gpuError_t::gpuErrorCapturedEvent;
+      return GpuError::capturedEvent;
     case hipErrorStreamCaptureWrongThread:
-      return gpuError_t::gpuErrorStreamCaptureWrongThread;
+      return GpuError::streamCaptureWrongThread;
     case hipErrorGraphExecUpdateFailure:
-      return gpuError_t::gpuErrorGraphExecUpdateFailure;
+      return GpuError::graphExecUpdateFailure;
     case hipErrorUnknown:
     default:
-      return gpuError_t::gpuErrorUnknown;
+      return GpuError::gpuErrorUnknown;
   }
 }
 
-static hipError_t gpuErrorToHipError(const gpuError_t error) {
+static hipError_t GpuToHipError(const GpuError error) {
   switch (error) {
-    case gpuError_t::gpuSuccess:
+    case GpuError::success:
       return hipSuccess;
-    case gpuError_t::gpuErrorInvalidValue:
+    case GpuError::invalidValue:
       return hipErrorInvalidValue;
-    case gpuError_t::gpuErrorOutOfMemory:
+    case GpuError::outOfMemory:
       return hipErrorOutOfMemory;
-    case gpuError_t::gpuErrorNotInitialized:
+    case GpuError::notInitialized:
       return hipErrorNotInitialized;
-    case gpuError_t::gpuErrorDeinitialized:
+    case GpuError::deinitialized:
       return hipErrorDeinitialized;
-    case gpuError_t::gpuErrorProfilerDisabled:
+    case GpuError::profilerDisabled:
       return hipErrorProfilerDisabled;
-    case gpuError_t::gpuErrorProfilerNotInitialized:
+    case GpuError::profilerNotInitialized:
       return hipErrorProfilerNotInitialized;
-    case gpuError_t::gpuErrorProfilerAlreadyStarted:
+    case GpuError::profilerAlreadyStarted:
       return hipErrorProfilerAlreadyStarted;
-    case gpuError_t::gpuErrorProfilerAlreadyStopped:
+    case GpuError::profilerAlreadyStopped:
       return hipErrorProfilerAlreadyStopped;
-    case gpuError_t::gpuErrorInvalidConfiguration:
+    case GpuError::invalidConfiguration:
       return hipErrorInvalidConfiguration;
-    case gpuError_t::gpuErrorInvalidPitchValue:
+    case GpuError::invalidPitchValue:
       return hipErrorInvalidPitchValue;
-    case gpuError_t::gpuErrorInvalidSymbol:
+    case GpuError::invalidSymbol:
       return hipErrorInvalidSymbol;
-    case gpuError_t::gpuErrorInvalidDevicePointer:
+    case GpuError::invalidDevicePointer:
       return hipErrorInvalidDevicePointer;
-    case gpuError_t::gpuErrorInvalidMemcpyDirection:
+    case GpuError::invalidMemcpyDirection:
       return hipErrorInvalidMemcpyDirection;
-    case gpuError_t::gpuErrorInsufficientDriver:
+    case GpuError::insufficientDriver:
       return hipErrorInsufficientDriver;
-    case gpuError_t::gpuErrorMissingConfiguration:
+    case GpuError::missingConfiguration:
       return hipErrorMissingConfiguration;
-    case gpuError_t::gpuErrorPriorLaunchFailure:
+    case GpuError::priorLaunchFailure:
       return hipErrorPriorLaunchFailure;
-    case gpuError_t::gpuErrorInvalidDeviceFunction:
+    case GpuError::invalidDeviceFunction:
       return hipErrorInvalidDeviceFunction;
-    case gpuError_t::gpuErrorNoDevice:
+    case GpuError::noDevice:
       return hipErrorNoDevice;
-    case gpuError_t::gpuErrorInvalidDevice:
+    case GpuError::invalidDevice:
       return hipErrorInvalidDevice;
-    case gpuError_t::gpuErrorInvalidImage:
+    case GpuError::invalidImage:
       return hipErrorInvalidImage;
-    case gpuError_t::gpuErrorInvalidContext:
+    case GpuError::invalidContext:
       return hipErrorInvalidContext;
-    case gpuError_t::gpuErrorContextAlreadyCurrent:
+    case GpuError::contextAlreadyCurrent:
       return hipErrorContextAlreadyCurrent;
-    case gpuError_t::gpuErrorMapFailed:
+    case GpuError::mapFailed:
       return hipErrorMapFailed;
-    case gpuError_t::gpuErrorUnmapFailed:
+    case GpuError::unmapFailed:
       return hipErrorUnmapFailed;
-    case gpuError_t::gpuErrorArrayIsMapped:
+    case GpuError::arrayIsMapped:
       return hipErrorArrayIsMapped;
-    case gpuError_t::gpuErrorAlreadyMapped:
+    case GpuError::alreadyMapped:
       return hipErrorAlreadyMapped;
-    case gpuError_t::gpuErrorNoBinaryForGpu:
+    case GpuError::noBinaryForGpu:
       return hipErrorNoBinaryForGpu;
-    case gpuError_t::gpuErrorAlreadyAcquired:
+    case GpuError::alreadyAcquired:
       return hipErrorAlreadyAcquired;
-    case gpuError_t::gpuErrorNotMapped:
+    case GpuError::notMapped:
       return hipErrorNotMapped;
-    case gpuError_t::gpuErrorNotMappedAsArray:
+    case GpuError::notMappedAsArray:
       return hipErrorNotMappedAsArray;
-    case gpuError_t::gpuErrorNotMappedAsPointer:
+    case GpuError::notMappedAsPointer:
       return hipErrorNotMappedAsPointer;
-    case gpuError_t::gpuErrorECCNotCorrectable:
+    case GpuError::eccNotCorrectable:
       return hipErrorECCNotCorrectable;
-    case gpuError_t::gpuErrorUnsupportedLimit:
+    case GpuError::unsupportedLimit:
       return hipErrorUnsupportedLimit;
-    case gpuError_t::gpuErrorContextAlreadyInUse:
+    case GpuError::contextAlreadyInUse:
       return hipErrorContextAlreadyInUse;
-    case gpuError_t::gpuErrorPeerAccessUnsupported:
+    case GpuError::peerAccessUnsupported:
       return hipErrorPeerAccessUnsupported;
-    case gpuError_t::gpuErrorInvalidKernelFile:
+    case GpuError::invalidKernelFile:
       return hipErrorInvalidKernelFile;
-    case gpuError_t::gpuErrorInvalidGraphicsContext:
+    case GpuError::invalidGraphicsContext:
       return hipErrorInvalidGraphicsContext;
-    case gpuError_t::gpuErrorInvalidSource:
+    case GpuError::invalidSource:
       return hipErrorInvalidSource;
-    case gpuError_t::gpuErrorFileNotFound:
+    case GpuError::fileNotFound:
       return hipErrorFileNotFound;
-    case gpuError_t::gpuErrorSharedObjectSymbolNotFound:
+    case GpuError::sharedObjectSymbolNotFound:
       return hipErrorSharedObjectSymbolNotFound;
-    case gpuError_t::gpuErrorSharedObjectInitFailed:
+    case GpuError::sharedObjectInitFailed:
       return hipErrorSharedObjectInitFailed;
-    case gpuError_t::gpuErrorOperatingSystem:
+    case GpuError::operatingSystem:
       return hipErrorOperatingSystem;
-    case gpuError_t::gpuErrorInvalidHandle:
+    case GpuError::invalidHandle:
       return hipErrorInvalidHandle;
-    case gpuError_t::gpuErrorIllegalState:
+    case GpuError::illegalState:
       return hipErrorIllegalState;
-    case gpuError_t::gpuErrorNotFound:
+    case GpuError::notFound:
       return hipErrorNotFound;
-    case gpuError_t::gpuErrorNotReady:
+    case GpuError::notReady:
       return hipErrorNotReady;
-    case gpuError_t::gpuErrorIllegalAddress:
+    case GpuError::illegalAddress:
       return hipErrorIllegalAddress;
-    case gpuError_t::gpuErrorLaunchOutOfResources:
+    case GpuError::launchOutOfResources:
       return hipErrorLaunchOutOfResources;
-    case gpuError_t::gpuErrorLaunchTimeOut:
+    case GpuError::launchTimeOut:
       return hipErrorLaunchTimeOut;
-    case gpuError_t::gpuErrorPeerAccessAlreadyEnabled:
+    case GpuError::peerAccessAlreadyEnabled:
       return hipErrorPeerAccessAlreadyEnabled;
-    case gpuError_t::gpuErrorPeerAccessNotEnabled:
+    case GpuError::peerAccessNotEnabled:
       return hipErrorPeerAccessNotEnabled;
-    case gpuError_t::gpuErrorSetOnActiveProcess:
+    case GpuError::setOnActiveProcess:
       return hipErrorSetOnActiveProcess;
-    case gpuError_t::gpuErrorContextIsDestroyed:
+    case GpuError::contextIsDestroyed:
       return hipErrorContextIsDestroyed;
-    case gpuError_t::gpuErrorAssert:
+    case GpuError::assert:
       return hipErrorAssert;
-    case gpuError_t::gpuErrorHostMemoryAlreadyRegistered:
+    case GpuError::hostMemoryAlreadyRegistered:
       return hipErrorHostMemoryAlreadyRegistered;
-    case gpuError_t::gpuErrorHostMemoryNotRegistered:
+    case GpuError::hostMemoryNotRegistered:
       return hipErrorHostMemoryNotRegistered;
-    case gpuError_t::gpuErrorLaunchFailure:
+    case GpuError::launchFailure:
       return hipErrorLaunchFailure;
-    case gpuError_t::gpuErrorCooperativeLaunchTooLarge:
+    case GpuError::cooperativeLaunchTooLarge:
       return hipErrorCooperativeLaunchTooLarge;
-    case gpuError_t::gpuErrorNotSupported:
+    case GpuError::notSupported:
       return hipErrorNotSupported;
-    case gpuError_t::gpuErrorStreamCaptureUnsupported:
+    case GpuError::streamCaptureUnsupported:
       return hipErrorStreamCaptureUnsupported;
-    case gpuError_t::gpuErrorStreamCaptureInvalidated:
+    case GpuError::streamCaptureInvalidated:
       return hipErrorStreamCaptureInvalidated;
-    case gpuError_t::gpuErrorStreamCaptureMerge:
+    case GpuError::streamCaptureMerge:
       return hipErrorStreamCaptureMerge;
-    case gpuError_t::gpuErrorStreamCaptureUnmatched:
+    case GpuError::streamCaptureUnmatched:
       return hipErrorStreamCaptureUnmatched;
-    case gpuError_t::gpuErrorStreamCaptureUnjoined:
+    case GpuError::streamCaptureUnjoined:
       return hipErrorStreamCaptureUnjoined;
-    case gpuError_t::gpuErrorStreamCaptureIsolation:
+    case GpuError::streamCaptureIsolation:
       return hipErrorStreamCaptureIsolation;
-    case gpuError_t::gpuErrorStreamCaptureImplicit:
+    case GpuError::streamCaptureImplicit:
       return hipErrorStreamCaptureImplicit;
-    case gpuError_t::gpuErrorCapturedEvent:
+    case GpuError::capturedEvent:
       return hipErrorCapturedEvent;
-    case gpuError_t::gpuErrorStreamCaptureWrongThread:
+    case GpuError::streamCaptureWrongThread:
       return hipErrorStreamCaptureWrongThread;
-    case gpuError_t::gpuErrorGraphExecUpdateFailure:
+    case GpuError::graphExecUpdateFailure:
       return hipErrorGraphExecUpdateFailure;
-    case gpuError_t::gpuErrorUnknown:
+    case GpuError::gpuErrorUnknown:
     default:
       return hipErrorUnknown;
   }
 }
 
-static hipMemcpyKind mapMemcpyKind(const gpuMemcpyKind copy_kind) {
+static hipMemcpyKind MapMemcpyKind(const GpuMemcpyKind copy_kind) {
   switch (copy_kind) {
-    case gpuMemcpyKind::gpuMemcpyHostToHost:
+    case GpuMemcpyKind::hostToHost:
       return hipMemcpyHostToHost;
-    case gpuMemcpyKind::gpuMemcpyHostToDevice:
+    case GpuMemcpyKind::hostToDevice:
       return hipMemcpyHostToDevice;
-    case gpuMemcpyKind::gpuMemcpyDeviceToHost:
+    case GpuMemcpyKind::deviceToHost:
       return hipMemcpyDeviceToHost;
-    case gpuMemcpyKind::gpuMemcpyDeviceToDevice:
+    case GpuMemcpyKind::deviceToDevice:
       return hipMemcpyDeviceToDevice;
-    case gpuMemcpyKind::gpuMemcpyDefault:
+    case GpuMemcpyKind::memcpyDefault:
     default:
       return hipMemcpyDefault;
   }
 }
 }  // namespace
 
+// GpuStream implementation
+
+GpuStream::GpuStream() {
+  hipStream_t handle;
+  GPU_CHECK(HipToGpuError(hipStreamCreate(&handle)));
+  handle_ = static_cast<void*>(handle);
+}
+
+GpuStream::~GpuStream() {
+  hipStream_t handle = static_cast<hipStream_t>(handle_);
+  GPU_CHECK(HipToGpuError(hipStreamDestroy(handle)));
+}
+
 // Device management
 
-gpuError_t gpuGetDevice(int* id) {
-  return hipErrorToGpuError(hipGetDevice(id));
+GpuError GpuGetDevice(int* id) { return HipToGpuError(hipGetDevice(id)); }
+
+GpuError GpuSetDevice(int id) { return HipToGpuError(hipSetDevice(id)); }
+
+GpuError GpuGetDeviceCount(int* count) {
+  return HipToGpuError(hipGetDeviceCount(count));
 }
 
-gpuError_t gpuSetDevice(int id) { return hipErrorToGpuError(hipSetDevice(id)); }
-
-gpuError_t gpuGetDeviceCount(int* count) {
-  return hipErrorToGpuError(hipGetDeviceCount(count));
+GpuError GpuDeviceSynchronize() {
+  return HipToGpuError(hipDeviceSynchronize());
 }
 
-gpuError_t gpuDeviceSynchronize() {
-  return hipErrorToGpuError(hipDeviceSynchronize());
-}
-
-gpuError_t gpuDeviceReset() { return hipErrorToGpuError(hipDeviceReset()); }
+GpuError GpuDeviceReset() { return HipToGpuError(hipDeviceReset()); }
 
 // Error handling
 
-gpuError_t gpuGetLastError() { return hipErrorToGpuError(hipGetLastError()); }
+GpuError GpuGetLastError() { return HipToGpuError(hipGetLastError()); }
 
-gpuError_t gpuPeekAtLastError() {
-  return hipErrorToGpuError(hipPeekAtLastError());
+GpuError GpuPeekAtLastError() { return HipToGpuError(hipPeekAtLastError()); }
+
+const char* GpuGetErrorName(GpuError error) {
+  return hipGetErrorName(GpuToHipError(error));
 }
 
-const char* gpuGetErrorName(gpuError_t error) {
-  return hipGetErrorName(gpuErrorToHipError(error));
-}
-
-const char* gpuGetErrorString(gpuError_t error) {
-  return hipGetErrorString(gpuErrorToHipError(error));
+const char* GpuGetErrorString(GpuError error) {
+  return hipGetErrorString(GpuToHipError(error));
 }
 
 // Memory management
 
-gpuError_t gpuMalloc(void** ptr, const size_t size) {
-  return hipErrorToGpuError(hipMalloc(ptr, size));
+GpuError GpuMalloc(void** ptr, const size_t size) {
+  return HipToGpuError(hipMalloc(ptr, size));
 }
 
-gpuError_t gpuMemcpy(void* dst, const void* src, const size_t size,
-                     const gpuMemcpyKind copy_kind) {
-  return hipErrorToGpuError(
-      hipMemcpy(dst, src, size, mapMemcpyKind(copy_kind)));
+GpuError GpuMemcpy(void* dst, const void* src, const size_t size,
+                   const GpuMemcpyKind copy_kind) {
+  return HipToGpuError(hipMemcpy(dst, src, size, MapMemcpyKind(copy_kind)));
 }
 
-gpuError_t gpuFree(void* ptr) { return hipErrorToGpuError(hipFree(ptr)); }
+GpuError GpuFree(void* ptr) { return HipToGpuError(hipFree(ptr)); }
 
 }  // namespace runtime
 }  // namespace gpu_mate

@@ -9,31 +9,31 @@ using namespace gpu_mate::runtime;
 TEST(TestRuntimeError, TestGetLastError) {
   // Invoke an error
   void* ptr;
-  gpuError_t error = gpuMalloc(&ptr, ULLONG_MAX);
-  gpuError_t query = gpuGetLastError();
+  GpuError error = GpuMalloc(&ptr, ULLONG_MAX);
+  GpuError query = GpuGetLastError();
   EXPECT_EQ(error, query);
-  EXPECT_EQ(gpuGetLastError(), gpuError_t::gpuSuccess);
+  EXPECT_EQ(GpuGetLastError(), GpuError::success);
 }
 
 TEST(TestRuntimeError, TestPeekAtLastError) {
   // Invoke an error
   void* ptr;
-  gpuError_t error = gpuMalloc(&ptr, ULLONG_MAX);
-  gpuError_t peek = gpuPeekAtLastError();
+  GpuError error = GpuMalloc(&ptr, ULLONG_MAX);
+  GpuError peek = GpuPeekAtLastError();
   EXPECT_EQ(error, peek);
-  EXPECT_EQ(error, gpuPeekAtLastError());
+  EXPECT_EQ(error, GpuPeekAtLastError());
 }
 
 TEST(TestRuntimeError, TestGetErrorName) {
-  gpuError_t error = gpuDeviceSynchronize();
-  const char* name = gpuGetErrorName(error);
+  GpuError error = GpuDeviceSynchronize();
+  const char* name = GpuGetErrorName(error);
   EXPECT_NE(name, nullptr);
   EXPECT_STRNE(name, "");
 }
 
 TEST(TestRuntimeError, TestGetErrorString) {
-  gpuError_t error = gpuDeviceSynchronize();
-  const char* str = gpuGetErrorString(error);
+  GpuError error = GpuDeviceSynchronize();
+  const char* str = GpuGetErrorString(error);
   EXPECT_NE(str, nullptr);
   EXPECT_STRNE(str, "");
 }

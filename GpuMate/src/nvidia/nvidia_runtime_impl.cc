@@ -7,370 +7,378 @@ namespace gpu_mate {
 namespace runtime {
 namespace {
 
-static gpuError_t cudaErrorToGpuError(const cudaError_t error) {
+static GpuError CudaToGpuError(const cudaError_t error) {
   switch (error) {
     case cudaSuccess:
-      return gpuError_t::gpuSuccess;
+      return GpuError::success;
     case cudaErrorInvalidValue:
-      return gpuError_t::gpuErrorInvalidValue;
+      return GpuError::invalidValue;
     case cudaErrorMemoryAllocation:
-      return gpuError_t::gpuErrorOutOfMemory;
+      return GpuError::outOfMemory;
     case cudaErrorInitializationError:
-      return gpuError_t::gpuErrorNotInitialized;
+      return GpuError::notInitialized;
     case cudaErrorCudartUnloading:
-      return gpuError_t::gpuErrorDeinitialized;
+      return GpuError::deinitialized;
     case cudaErrorProfilerDisabled:
-      return gpuError_t::gpuErrorProfilerDisabled;
+      return GpuError::profilerDisabled;
     case cudaErrorProfilerNotInitialized:
-      return gpuError_t::gpuErrorProfilerNotInitialized;
+      return GpuError::profilerNotInitialized;
     case cudaErrorProfilerAlreadyStarted:
-      return gpuError_t::gpuErrorProfilerAlreadyStarted;
+      return GpuError::profilerAlreadyStarted;
     case cudaErrorProfilerAlreadyStopped:
-      return gpuError_t::gpuErrorProfilerAlreadyStopped;
+      return GpuError::profilerAlreadyStopped;
     case cudaErrorInvalidConfiguration:
-      return gpuError_t::gpuErrorInvalidConfiguration;
+      return GpuError::invalidConfiguration;
     case cudaErrorInvalidPitchValue:
-      return gpuError_t::gpuErrorInvalidPitchValue;
+      return GpuError::invalidPitchValue;
     case cudaErrorInvalidSymbol:
-      return gpuError_t::gpuErrorInvalidSymbol;
+      return GpuError::invalidSymbol;
     case cudaErrorInvalidDevicePointer:
-      return gpuError_t::gpuErrorInvalidDevicePointer;
+      return GpuError::invalidDevicePointer;
     case cudaErrorInvalidMemcpyDirection:
-      return gpuError_t::gpuErrorInvalidMemcpyDirection;
+      return GpuError::invalidMemcpyDirection;
     case cudaErrorInsufficientDriver:
-      return gpuError_t::gpuErrorInsufficientDriver;
+      return GpuError::insufficientDriver;
     case cudaErrorMissingConfiguration:
-      return gpuError_t::gpuErrorMissingConfiguration;
+      return GpuError::missingConfiguration;
     case cudaErrorPriorLaunchFailure:
-      return gpuError_t::gpuErrorPriorLaunchFailure;
+      return GpuError::priorLaunchFailure;
     case cudaErrorInvalidDeviceFunction:
-      return gpuError_t::gpuErrorInvalidDeviceFunction;
+      return GpuError::invalidDeviceFunction;
     case cudaErrorNoDevice:
-      return gpuError_t::gpuErrorNoDevice;
+      return GpuError::noDevice;
     case cudaErrorInvalidDevice:
-      return gpuError_t::gpuErrorInvalidDevice;
+      return GpuError::invalidDevice;
     case cudaErrorInvalidKernelImage:
-      return gpuError_t::gpuErrorInvalidImage;
+      return GpuError::invalidImage;
     case cudaErrorDeviceUninitialized:
-      return gpuError_t::gpuErrorInvalidContext;
+      return GpuError::invalidContext;
     case cudaErrorMapBufferObjectFailed:
-      return gpuError_t::gpuErrorMapFailed;
+      return GpuError::mapFailed;
     case cudaErrorUnmapBufferObjectFailed:
-      return gpuError_t::gpuErrorUnmapFailed;
+      return GpuError::unmapFailed;
     case cudaErrorArrayIsMapped:
-      return gpuError_t::gpuErrorArrayIsMapped;
+      return GpuError::arrayIsMapped;
     case cudaErrorAlreadyMapped:
-      return gpuError_t::gpuErrorAlreadyMapped;
+      return GpuError::alreadyMapped;
     case cudaErrorNoKernelImageForDevice:
-      return gpuError_t::gpuErrorNoBinaryForGpu;
+      return GpuError::noBinaryForGpu;
     case cudaErrorAlreadyAcquired:
-      return gpuError_t::gpuErrorAlreadyAcquired;
+      return GpuError::alreadyAcquired;
     case cudaErrorNotMapped:
-      return gpuError_t::gpuErrorNotMapped;
+      return GpuError::notMapped;
     case cudaErrorNotMappedAsArray:
-      return gpuError_t::gpuErrorNotMappedAsArray;
+      return GpuError::notMappedAsArray;
     case cudaErrorNotMappedAsPointer:
-      return gpuError_t::gpuErrorNotMappedAsPointer;
+      return GpuError::notMappedAsPointer;
     case cudaErrorECCUncorrectable:
-      return gpuError_t::gpuErrorECCNotCorrectable;
+      return GpuError::eccNotCorrectable;
     case cudaErrorUnsupportedLimit:
-      return gpuError_t::gpuErrorUnsupportedLimit;
+      return GpuError::unsupportedLimit;
     case cudaErrorDeviceAlreadyInUse:
-      return gpuError_t::gpuErrorContextAlreadyInUse;
+      return GpuError::contextAlreadyInUse;
     case cudaErrorPeerAccessUnsupported:
-      return gpuError_t::gpuErrorPeerAccessUnsupported;
+      return GpuError::peerAccessUnsupported;
     case cudaErrorInvalidPtx:
-      return gpuError_t::gpuErrorInvalidKernelFile;
+      return GpuError::invalidKernelFile;
     case cudaErrorInvalidGraphicsContext:
-      return gpuError_t::gpuErrorInvalidGraphicsContext;
+      return GpuError::invalidGraphicsContext;
     case cudaErrorInvalidSource:
-      return gpuError_t::gpuErrorInvalidSource;
+      return GpuError::invalidSource;
     case cudaErrorFileNotFound:
-      return gpuError_t::gpuErrorFileNotFound;
+      return GpuError::fileNotFound;
     case cudaErrorSharedObjectSymbolNotFound:
-      return gpuError_t::gpuErrorSharedObjectSymbolNotFound;
+      return GpuError::sharedObjectSymbolNotFound;
     case cudaErrorSharedObjectInitFailed:
-      return gpuError_t::gpuErrorSharedObjectInitFailed;
+      return GpuError::sharedObjectInitFailed;
     case cudaErrorOperatingSystem:
-      return gpuError_t::gpuErrorOperatingSystem;
+      return GpuError::operatingSystem;
     case cudaErrorInvalidResourceHandle:
-      return gpuError_t::gpuErrorInvalidHandle;
+      return GpuError::invalidHandle;
     case cudaErrorIllegalState:
-      return gpuError_t::gpuErrorIllegalState;
+      return GpuError::illegalState;
     case cudaErrorSymbolNotFound:
-      return gpuError_t::gpuErrorNotFound;
+      return GpuError::notFound;
     case cudaErrorNotReady:
-      return gpuError_t::gpuErrorNotReady;
+      return GpuError::notReady;
     case cudaErrorIllegalAddress:
-      return gpuError_t::gpuErrorIllegalAddress;
+      return GpuError::illegalAddress;
     case cudaErrorLaunchOutOfResources:
-      return gpuError_t::gpuErrorLaunchOutOfResources;
+      return GpuError::launchOutOfResources;
     case cudaErrorLaunchTimeout:
-      return gpuError_t::gpuErrorLaunchTimeOut;
+      return GpuError::launchTimeOut;
     case cudaErrorPeerAccessAlreadyEnabled:
-      return gpuError_t::gpuErrorPeerAccessAlreadyEnabled;
+      return GpuError::peerAccessAlreadyEnabled;
     case cudaErrorPeerAccessNotEnabled:
-      return gpuError_t::gpuErrorPeerAccessNotEnabled;
+      return GpuError::peerAccessNotEnabled;
     case cudaErrorSetOnActiveProcess:
-      return gpuError_t::gpuErrorSetOnActiveProcess;
+      return GpuError::setOnActiveProcess;
     case cudaErrorContextIsDestroyed:
-      return gpuError_t::gpuErrorContextIsDestroyed;
+      return GpuError::contextIsDestroyed;
     case cudaErrorAssert:
-      return gpuError_t::gpuErrorAssert;
+      return GpuError::assert;
     case cudaErrorHostMemoryAlreadyRegistered:
-      return gpuError_t::gpuErrorHostMemoryAlreadyRegistered;
+      return GpuError::hostMemoryAlreadyRegistered;
     case cudaErrorHostMemoryNotRegistered:
-      return gpuError_t::gpuErrorHostMemoryNotRegistered;
+      return GpuError::hostMemoryNotRegistered;
     case cudaErrorLaunchFailure:
-      return gpuError_t::gpuErrorLaunchFailure;
+      return GpuError::launchFailure;
     case cudaErrorCooperativeLaunchTooLarge:
-      return gpuError_t::gpuErrorCooperativeLaunchTooLarge;
+      return GpuError::cooperativeLaunchTooLarge;
     case cudaErrorNotSupported:
-      return gpuError_t::gpuErrorNotSupported;
+      return GpuError::notSupported;
     case cudaErrorStreamCaptureUnsupported:
-      return gpuError_t::gpuErrorStreamCaptureUnsupported;
+      return GpuError::streamCaptureUnsupported;
     case cudaErrorStreamCaptureInvalidated:
-      return gpuError_t::gpuErrorStreamCaptureInvalidated;
+      return GpuError::streamCaptureInvalidated;
     case cudaErrorStreamCaptureMerge:
-      return gpuError_t::gpuErrorStreamCaptureMerge;
+      return GpuError::streamCaptureMerge;
     case cudaErrorStreamCaptureUnmatched:
-      return gpuError_t::gpuErrorStreamCaptureUnmatched;
+      return GpuError::streamCaptureUnmatched;
     case cudaErrorStreamCaptureUnjoined:
-      return gpuError_t::gpuErrorStreamCaptureUnjoined;
+      return GpuError::streamCaptureUnjoined;
     case cudaErrorStreamCaptureIsolation:
-      return gpuError_t::gpuErrorStreamCaptureIsolation;
+      return GpuError::streamCaptureIsolation;
     case cudaErrorStreamCaptureImplicit:
-      return gpuError_t::gpuErrorStreamCaptureImplicit;
+      return GpuError::streamCaptureImplicit;
     case cudaErrorCapturedEvent:
-      return gpuError_t::gpuErrorCapturedEvent;
+      return GpuError::capturedEvent;
     case cudaErrorStreamCaptureWrongThread:
-      return gpuError_t::gpuErrorStreamCaptureWrongThread;
+      return GpuError::streamCaptureWrongThread;
     case cudaErrorGraphExecUpdateFailure:
-      return gpuError_t::gpuErrorGraphExecUpdateFailure;
+      return GpuError::graphExecUpdateFailure;
     case cudaErrorUnknown:
     default:
-      return gpuError_t::gpuErrorUnknown;
+      return GpuError::gpuErrorUnknown;
   }
 }
 
-static cudaError_t gpuErrorToCudaError(const gpuError_t error) {
+static cudaError_t GpuToCudaError(const GpuError error) {
   switch (error) {
-    case gpuError_t::gpuSuccess:
+    case GpuError::success:
       return cudaSuccess;
-    case gpuError_t::gpuErrorInvalidValue:
+    case GpuError::invalidValue:
       return cudaErrorInvalidValue;
-    case gpuError_t::gpuErrorOutOfMemory:
+    case GpuError::outOfMemory:
       return cudaErrorMemoryAllocation;
-    case gpuError_t::gpuErrorNotInitialized:
+    case GpuError::notInitialized:
       return cudaErrorInitializationError;
-    case gpuError_t::gpuErrorDeinitialized:
+    case GpuError::deinitialized:
       return cudaErrorCudartUnloading;
-    case gpuError_t::gpuErrorProfilerDisabled:
+    case GpuError::profilerDisabled:
       return cudaErrorProfilerDisabled;
-    case gpuError_t::gpuErrorProfilerNotInitialized:
+    case GpuError::profilerNotInitialized:
       return cudaErrorProfilerNotInitialized;
-    case gpuError_t::gpuErrorProfilerAlreadyStarted:
+    case GpuError::profilerAlreadyStarted:
       return cudaErrorProfilerAlreadyStarted;
-    case gpuError_t::gpuErrorProfilerAlreadyStopped:
+    case GpuError::profilerAlreadyStopped:
       return cudaErrorProfilerAlreadyStopped;
-    case gpuError_t::gpuErrorInvalidConfiguration:
+    case GpuError::invalidConfiguration:
       return cudaErrorInvalidConfiguration;
-    case gpuError_t::gpuErrorInvalidPitchValue:
+    case GpuError::invalidPitchValue:
       return cudaErrorInvalidPitchValue;
-    case gpuError_t::gpuErrorInvalidSymbol:
+    case GpuError::invalidSymbol:
       return cudaErrorInvalidSymbol;
-    case gpuError_t::gpuErrorInvalidDevicePointer:
+    case GpuError::invalidDevicePointer:
       return cudaErrorInvalidDevicePointer;
-    case gpuError_t::gpuErrorInvalidMemcpyDirection:
+    case GpuError::invalidMemcpyDirection:
       return cudaErrorInvalidMemcpyDirection;
-    case gpuError_t::gpuErrorInsufficientDriver:
+    case GpuError::insufficientDriver:
       return cudaErrorInsufficientDriver;
-    case gpuError_t::gpuErrorMissingConfiguration:
+    case GpuError::missingConfiguration:
       return cudaErrorMissingConfiguration;
-    case gpuError_t::gpuErrorPriorLaunchFailure:
+    case GpuError::priorLaunchFailure:
       return cudaErrorPriorLaunchFailure;
-    case gpuError_t::gpuErrorInvalidDeviceFunction:
+    case GpuError::invalidDeviceFunction:
       return cudaErrorInvalidDeviceFunction;
-    case gpuError_t::gpuErrorNoDevice:
+    case GpuError::noDevice:
       return cudaErrorNoDevice;
-    case gpuError_t::gpuErrorInvalidDevice:
+    case GpuError::invalidDevice:
       return cudaErrorInvalidDevice;
-    case gpuError_t::gpuErrorInvalidImage:
+    case GpuError::invalidImage:
       return cudaErrorInvalidKernelImage;
-    case gpuError_t::gpuErrorInvalidContext:
+    case GpuError::invalidContext:
       return cudaErrorDeviceUninitialized;
-    case gpuError_t::gpuErrorContextAlreadyCurrent:
+    case GpuError::contextAlreadyCurrent:
       return cudaErrorDeviceAlreadyInUse;
-    case gpuError_t::gpuErrorMapFailed:
+    case GpuError::mapFailed:
       return cudaErrorMapBufferObjectFailed;
-    case gpuError_t::gpuErrorUnmapFailed:
+    case GpuError::unmapFailed:
       return cudaErrorUnmapBufferObjectFailed;
-    case gpuError_t::gpuErrorArrayIsMapped:
+    case GpuError::arrayIsMapped:
       return cudaErrorArrayIsMapped;
-    case gpuError_t::gpuErrorAlreadyMapped:
+    case GpuError::alreadyMapped:
       return cudaErrorAlreadyMapped;
-    case gpuError_t::gpuErrorNoBinaryForGpu:
+    case GpuError::noBinaryForGpu:
       return cudaErrorNoKernelImageForDevice;
-    case gpuError_t::gpuErrorAlreadyAcquired:
+    case GpuError::alreadyAcquired:
       return cudaErrorAlreadyAcquired;
-    case gpuError_t::gpuErrorNotMapped:
+    case GpuError::notMapped:
       return cudaErrorNotMapped;
-    case gpuError_t::gpuErrorNotMappedAsArray:
+    case GpuError::notMappedAsArray:
       return cudaErrorNotMappedAsArray;
-    case gpuError_t::gpuErrorNotMappedAsPointer:
+    case GpuError::notMappedAsPointer:
       return cudaErrorNotMappedAsPointer;
-    case gpuError_t::gpuErrorECCNotCorrectable:
+    case GpuError::eccNotCorrectable:
       return cudaErrorECCUncorrectable;
-    case gpuError_t::gpuErrorUnsupportedLimit:
+    case GpuError::unsupportedLimit:
       return cudaErrorUnsupportedLimit;
-    case gpuError_t::gpuErrorContextAlreadyInUse:
+    case GpuError::contextAlreadyInUse:
       return cudaErrorDeviceAlreadyInUse;
-    case gpuError_t::gpuErrorPeerAccessUnsupported:
+    case GpuError::peerAccessUnsupported:
       return cudaErrorPeerAccessUnsupported;
-    case gpuError_t::gpuErrorInvalidKernelFile:
+    case GpuError::invalidKernelFile:
       return cudaErrorInvalidPtx;
-    case gpuError_t::gpuErrorInvalidGraphicsContext:
+    case GpuError::invalidGraphicsContext:
       return cudaErrorInvalidGraphicsContext;
-    case gpuError_t::gpuErrorInvalidSource:
+    case GpuError::invalidSource:
       return cudaErrorInvalidSource;
-    case gpuError_t::gpuErrorFileNotFound:
+    case GpuError::fileNotFound:
       return cudaErrorFileNotFound;
-    case gpuError_t::gpuErrorSharedObjectSymbolNotFound:
+    case GpuError::sharedObjectSymbolNotFound:
       return cudaErrorSharedObjectSymbolNotFound;
-    case gpuError_t::gpuErrorSharedObjectInitFailed:
+    case GpuError::sharedObjectInitFailed:
       return cudaErrorSharedObjectInitFailed;
-    case gpuError_t::gpuErrorOperatingSystem:
+    case GpuError::operatingSystem:
       return cudaErrorOperatingSystem;
-    case gpuError_t::gpuErrorInvalidHandle:
+    case GpuError::invalidHandle:
       return cudaErrorInvalidResourceHandle;
-    case gpuError_t::gpuErrorIllegalState:
+    case GpuError::illegalState:
       return cudaErrorIllegalState;
-    case gpuError_t::gpuErrorNotFound:
+    case GpuError::notFound:
       return cudaErrorSymbolNotFound;
-    case gpuError_t::gpuErrorNotReady:
+    case GpuError::notReady:
       return cudaErrorNotReady;
-    case gpuError_t::gpuErrorIllegalAddress:
+    case GpuError::illegalAddress:
       return cudaErrorIllegalAddress;
-    case gpuError_t::gpuErrorLaunchOutOfResources:
+    case GpuError::launchOutOfResources:
       return cudaErrorLaunchOutOfResources;
-    case gpuError_t::gpuErrorLaunchTimeOut:
+    case GpuError::launchTimeOut:
       return cudaErrorLaunchTimeout;
-    case gpuError_t::gpuErrorPeerAccessAlreadyEnabled:
+    case GpuError::peerAccessAlreadyEnabled:
       return cudaErrorPeerAccessAlreadyEnabled;
-    case gpuError_t::gpuErrorPeerAccessNotEnabled:
+    case GpuError::peerAccessNotEnabled:
       return cudaErrorPeerAccessNotEnabled;
-    case gpuError_t::gpuErrorSetOnActiveProcess:
+    case GpuError::setOnActiveProcess:
       return cudaErrorSetOnActiveProcess;
-    case gpuError_t::gpuErrorContextIsDestroyed:
+    case GpuError::contextIsDestroyed:
       return cudaErrorContextIsDestroyed;
-    case gpuError_t::gpuErrorAssert:
+    case GpuError::assert:
       return cudaErrorAssert;
-    case gpuError_t::gpuErrorHostMemoryAlreadyRegistered:
+    case GpuError::hostMemoryAlreadyRegistered:
       return cudaErrorHostMemoryAlreadyRegistered;
-    case gpuError_t::gpuErrorHostMemoryNotRegistered:
+    case GpuError::hostMemoryNotRegistered:
       return cudaErrorHostMemoryNotRegistered;
-    case gpuError_t::gpuErrorLaunchFailure:
+    case GpuError::launchFailure:
       return cudaErrorLaunchFailure;
-    case gpuError_t::gpuErrorCooperativeLaunchTooLarge:
+    case GpuError::cooperativeLaunchTooLarge:
       return cudaErrorCooperativeLaunchTooLarge;
-    case gpuError_t::gpuErrorNotSupported:
+    case GpuError::notSupported:
       return cudaErrorNotSupported;
-    case gpuError_t::gpuErrorStreamCaptureUnsupported:
+    case GpuError::streamCaptureUnsupported:
       return cudaErrorStreamCaptureUnsupported;
-    case gpuError_t::gpuErrorStreamCaptureInvalidated:
+    case GpuError::streamCaptureInvalidated:
       return cudaErrorStreamCaptureInvalidated;
-    case gpuError_t::gpuErrorStreamCaptureMerge:
+    case GpuError::streamCaptureMerge:
       return cudaErrorStreamCaptureMerge;
-    case gpuError_t::gpuErrorStreamCaptureUnmatched:
+    case GpuError::streamCaptureUnmatched:
       return cudaErrorStreamCaptureUnmatched;
-    case gpuError_t::gpuErrorStreamCaptureUnjoined:
+    case GpuError::streamCaptureUnjoined:
       return cudaErrorStreamCaptureUnjoined;
-    case gpuError_t::gpuErrorStreamCaptureIsolation:
+    case GpuError::streamCaptureIsolation:
       return cudaErrorStreamCaptureIsolation;
-    case gpuError_t::gpuErrorStreamCaptureImplicit:
+    case GpuError::streamCaptureImplicit:
       return cudaErrorStreamCaptureImplicit;
-    case gpuError_t::gpuErrorCapturedEvent:
+    case GpuError::capturedEvent:
       return cudaErrorCapturedEvent;
-    case gpuError_t::gpuErrorStreamCaptureWrongThread:
+    case GpuError::streamCaptureWrongThread:
       return cudaErrorStreamCaptureWrongThread;
-    case gpuError_t::gpuErrorGraphExecUpdateFailure:
+    case GpuError::graphExecUpdateFailure:
       return cudaErrorGraphExecUpdateFailure;
-    case gpuError_t::gpuErrorUnknown:
+    case GpuError::gpuErrorUnknown:
     default:
       return cudaErrorUnknown;
   }
 }
 
-static cudaMemcpyKind mapMemcpyKind(const gpuMemcpyKind copy_kind) {
+static cudaMemcpyKind MapMemcpyKind(const GpuMemcpyKind copy_kind) {
   switch (copy_kind) {
-    case gpuMemcpyKind::gpuMemcpyHostToHost:
+    case GpuMemcpyKind::hostToHost:
       return cudaMemcpyHostToHost;
-    case gpuMemcpyKind::gpuMemcpyHostToDevice:
+    case GpuMemcpyKind::hostToDevice:
       return cudaMemcpyHostToDevice;
-    case gpuMemcpyKind::gpuMemcpyDeviceToHost:
+    case GpuMemcpyKind::deviceToHost:
       return cudaMemcpyDeviceToHost;
-    case gpuMemcpyKind::gpuMemcpyDeviceToDevice:
+    case GpuMemcpyKind::deviceToDevice:
       return cudaMemcpyDeviceToDevice;
-    case gpuMemcpyKind::gpuMemcpyDefault:
+    case GpuMemcpyKind::memcpyDefault:
     default:
       return cudaMemcpyDefault;
   }
 }
 }  // namespace
 
+// GpuStream implementation
+
+GpuStream::GpuStream() {
+  cudaStream_t handle;
+  GPU_CHECK(CudaToGpuError(cudaStreamCreate(&handle)));
+  handle_ = static_cast<void*>(handle);
+}
+
+GpuStream::~GpuStream() {
+  cudaStream_t handle = static_cast<cudaStream_t>(handle_);
+  GPU_CHECK(CudaToGpuError(cudaStreamDestroy(handle)));
+}
+
 // Device management
 
-GPU_MATE_API gpuError_t gpuGetDevice(int* id) {
-  return cudaErrorToGpuError(cudaGetDevice(id));
+GPU_MATE_API GpuError GpuGetDevice(int* id) {
+  return CudaToGpuError(cudaGetDevice(id));
 }
 
-GPU_MATE_API gpuError_t gpuSetDevice(int id) {
-  return cudaErrorToGpuError(cudaSetDevice(id));
+GPU_MATE_API GpuError GpuSetDevice(int id) {
+  return CudaToGpuError(cudaSetDevice(id));
 }
 
-GPU_MATE_API gpuError_t gpuGetDeviceCount(int* count) {
-  return cudaErrorToGpuError(cudaGetDeviceCount(count));
+GPU_MATE_API GpuError GpuGetDeviceCount(int* count) {
+  return CudaToGpuError(cudaGetDeviceCount(count));
 }
 
-GPU_MATE_API gpuError_t gpuDeviceSynchronize() {
-  return cudaErrorToGpuError(cudaDeviceSynchronize());
+GPU_MATE_API GpuError GpuDeviceSynchronize() {
+  return CudaToGpuError(cudaDeviceSynchronize());
 }
 
-GPU_MATE_API gpuError_t gpuDeviceReset() {
-  return cudaErrorToGpuError(cudaDeviceReset());
+GPU_MATE_API GpuError GpuDeviceReset() {
+  return CudaToGpuError(cudaDeviceReset());
 }
 
 // Error handling
 
-gpuError_t gpuGetLastError() {
-  return cudaErrorToGpuError(cudaGetLastError());
-};
+GpuError GpuGetLastError() { return CudaToGpuError(cudaGetLastError()); };
 
-gpuError_t gpuPeekAtLastError() {
-  return cudaErrorToGpuError(cudaPeekAtLastError());
+GpuError GpuPeekAtLastError() { return CudaToGpuError(cudaPeekAtLastError()); }
+
+const char* GpuGetErrorName(GpuError error) {
+  return cudaGetErrorName(GpuToCudaError(error));
 }
 
-const char* gpuGetErrorName(gpuError_t error) {
-  return cudaGetErrorName(gpuErrorToCudaError(error));
-}
-
-const char* gpuGetErrorString(gpuError_t error) {
-  return cudaGetErrorString(gpuErrorToCudaError(error));
+const char* GpuGetErrorString(GpuError error) {
+  return cudaGetErrorString(GpuToCudaError(error));
 }
 
 // Memory management
 
-gpuError_t gpuMalloc(void** ptr, const size_t size) {
-  return cudaErrorToGpuError(cudaMalloc(ptr, size));
+GpuError GpuMalloc(void** ptr, const size_t size) {
+  return CudaToGpuError(cudaMalloc(ptr, size));
 }
 
-gpuError_t gpuMemcpy(void* dst, const void* src, const size_t size,
-                     const gpuMemcpyKind copy_kind) {
-  return cudaErrorToGpuError(
-      cudaMemcpy(dst, src, size, mapMemcpyKind(copy_kind)));
+GpuError GpuMemcpy(void* dst, const void* src, const size_t size,
+                   const GpuMemcpyKind copy_kind) {
+  return CudaToGpuError(cudaMemcpy(dst, src, size, MapMemcpyKind(copy_kind)));
 }
 
-gpuError_t gpuFree(void* ptr) { return cudaErrorToGpuError(cudaFree(ptr)); }
+GpuError GpuFree(void* ptr) { return CudaToGpuError(cudaFree(ptr)); }
 
 }  // namespace runtime
 }  // namespace gpu_mate

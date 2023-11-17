@@ -1,4 +1,4 @@
-#include <hipblas/hipblas.h>
+#include <hip/hip_runtime.h>
 #include <rocblas/rocblas.h>
 
 #include <cstdlib>
@@ -27,17 +27,17 @@ static rocblas_operation GpuToRocOperation(const GpuOperation op) {
 static GpuBlasStatus RocToGpuStatus(const rocblas_status status) {
   switch (status) {
     case rocblas_status_success:
-      return GpuBlasStatus::success;
+      return success;
     case rocblas_status_invalid_handle:
-      return GpuBlasStatus::notInitialized;
+      return notInitialized;
     case rocblas_status_memory_error:
-      return GpuBlasStatus::allocFailed;
+      return allocFailed;
     case rocblas_status_invalid_value:
-      return GpuBlasStatus::invalidValue;
+      return invalidValue;
     case rocblas_status_internal_error:
-      return GpuBlasStatus::internalError;
+      return internalError;
     default:
-      return GpuBlasStatus::unknown;
+      return unknown;
   }
 }
 }  // namespace
@@ -45,7 +45,7 @@ static GpuBlasStatus RocToGpuStatus(const rocblas_status status) {
 // Start GpuBlasHandle implementation
 
 GpuBlasHandle::GpuBlasHandle() {
-  rocblas_handle handle = rocblas_handle();
+  rocblas_handle handle;
   const rocblas_status status = rocblas_create_handle(&handle);
   if (status != rocblas_status_success) {
     std::cerr << "Error initializing GpuBlasHandle - aborting" << std::endl;
@@ -61,7 +61,11 @@ GpuBlasHandle::~GpuBlasHandle() {
 
 GpuBlasHandle GpuBlasHandle::Create() { return GpuBlasHandle(); }
 
-void* GpuBlasHandle::operator*() { return handle_; }
+void GpuBlasHandle::SetStream(const gpu_mate::runtime::GpuStream& stream) {
+  rocblas_handle blas_handle = static_cast<rocblas_handle>(handle_);
+  hipStream_t stream_handle = static_cast<hipStream_t>(*stream);
+  rocblas_set_stream(blas_handle, stream_handle);
+}
 
 // Start BLAS functions
 
@@ -69,7 +73,7 @@ GpuBlasStatus sgemm(GpuBlasHandle& handle, GpuOperation transA,
                     GpuOperation transB, int m, int n, int k,
                     const float* alpha, const float* A, int lda, const float* B,
                     int ldb, const float* beta, float* C, int ldc) {
-  const rocblas_handle _handle = reinterpret_cast<rocblas_handle>(*handle);
+  const rocblas_handle _handle = static_cast<rocblas_handle>(*handle);
   const rocblas_operation _transA = GpuToRocOperation(transA);
   const rocblas_operation _transB = GpuToRocOperation(transB);
   const rocblas_status status = rocblas_sgemm(

@@ -1,11 +1,16 @@
-﻿# CMakeList.txt : Top-level CMake project file, do global configuration
-# and include sub-projects here.
+﻿# CMakeList.txt : Top-level CMake project file
 #
 cmake_minimum_required (VERSION 3.21)
 
-project ("GpuMate")
-
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+include(Prelude)
+
+project(
+  "GpuMate"
+  VERSION 0.1.0
+  DESCRIPTION "Cross platform, cross vendor GPU code"
+  LANGUAGES CXX
+)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -18,26 +23,10 @@ option(
 )
 
 option(
-  GM_DLL_EXPORT
-  "If ON, GpuMate will export as a shared library."
-  OFF
-)
-
-option(
-  GM_DLL_IMPORT
-  "If ON, GpuMate will import as a shared library."
-  OFF
-)
-
-option(
   GM_BUILD_TESTS
   "If ON, GpuMate will build all tests."
   OFF
 )
-
-if (GM_BUILD_TESTS)
-  include(FetchGTest)
-endif()
 
 # Include sub-projects.
 add_subdirectory ("GpuMate")

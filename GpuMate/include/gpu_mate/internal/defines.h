@@ -9,7 +9,7 @@
 #if defined(_WIN32) || defined(_WIN64)
 #ifdef GM_DLL_EXPORT
 #define GPU_MATE_API __declspec(dllexport)
-#elif defined(GM_DLL_IMPORT)
+#elif defined(BUILD_SHARED_LIBS)
 #define GPU_MATE_API __declspec(dllimport)
 #else
 #define GPU_MATE_API

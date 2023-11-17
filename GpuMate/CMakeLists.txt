@@ -1,6 +1,10 @@
-﻿if (NOT GM_VENDOR STREQUAL "AMD" AND NOT GM_VENDOR STREQUAL "NVIDIA")
+﻿# GpuMate/CMakeLists.txt
+
+if (NOT GM_VENDOR STREQUAL "AMD" AND NOT GM_VENDOR STREQUAL "NVIDIA")
   message(FATAL_ERROR "please set GM_VENDOR to 'AMD' or 'NVIDIA'")
 endif()
+
+# Set sources based on target vendor
 
 set(
   SOURCES
@@ -12,23 +16,34 @@ if (GM_VENDOR STREQUAL "AMD")
     APPEND
     SOURCES
     src/amd/amd_runtime_impl.cc
-    src/amd/amd_blas_impl.cc)
+    src/amd/amd_blas_impl.cc
+  )
 else()
   list(
     APPEND
     SOURCES
     src/nvidia/nvidia_runtime_impl.cc
-    src/nvidia/nvidia_blas_impl.cc)
+    src/nvidia/nvidia_blas_impl.cc
+  )
 endif()
 
-if (GM_DLL_EXPORT OR GM_DLL_IMPORT)
-  # TODO: add versioning
-  add_library(GpuMate SHARED ${SOURCES})
-else()
-  add_library(GpuMate STATIC ${SOURCES})
+# Create library target
+
+add_library(GpuMate ${SOURCES})
+
+# Define shared library definitions
+
+if (BUILD_SHARED_LIBS)
+  target_compile_definitions(GpuMate PRIVATE GM_DLL_EXPORT)
 endif()
 
-target_include_directories(GpuMate PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_include_directories(
+  GpuMate 
+  PUBLIC 
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>)
+
+# Vendor specific configuration
 
 if (GM_VENDOR STREQUAL "AMD")
   find_package(hip REQUIRED)
@@ -41,14 +56,12 @@ elseif (GM_VENDOR STREQUAL "NVIDIA")
   target_compile_definitions(GpuMate PUBLIC __GM_PLATFORM_NVIDIA__)
 endif()
 
+# Install rules
+
+include(InstallTargets)
+
+# Include tests if enabled
+
 if (GM_BUILD_TESTS)
-  enable_testing()
-  set(
-    TEST_SOURCES
-    test/test_blas.cc
-    test/test_runtime_error.cc
-    test/test_runtime_device.cc
-    test/test_runtime_memory.cc)
-  add_executable(GpuMateTests ${TEST_SOURCES})
-  target_link_libraries(GpuMateTests PRIVATE GpuMate GTest::gtest_main)
+  add_subdirectory(test)
 endif()

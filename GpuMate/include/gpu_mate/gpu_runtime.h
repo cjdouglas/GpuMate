@@ -5,119 +5,133 @@
 namespace gpu_mate {
 namespace runtime {
 
-enum class gpuError_t {
-  gpuSuccess = 0,
-  gpuErrorInvalidValue = 1,
-  gpuErrorOutOfMemory = 2,
-  gpuErrorNotInitialized = 3,
-  gpuErrorDeinitialized = 4,
-  gpuErrorProfilerDisabled = 5,
-  gpuErrorProfilerNotInitialized = 6,
-  gpuErrorProfilerAlreadyStarted = 7,
-  gpuErrorProfilerAlreadyStopped = 8,
-  gpuErrorInvalidConfiguration = 9,
-  gpuErrorInvalidPitchValue = 10,
-  gpuErrorInvalidSymbol = 11,
-  gpuErrorInvalidDevicePointer = 12,
-  gpuErrorInvalidMemcpyDirection = 13,
-  gpuErrorInsufficientDriver = 14,
-  gpuErrorMissingConfiguration = 15,
-  gpuErrorPriorLaunchFailure = 16,
-  gpuErrorInvalidDeviceFunction = 17,
-  gpuErrorNoDevice = 18,
-  gpuErrorInvalidDevice = 19,
-  gpuErrorInvalidImage = 20,
-  gpuErrorInvalidContext = 21,
-  gpuErrorContextAlreadyCurrent = 22,
-  gpuErrorMapFailed = 23,
-  gpuErrorUnmapFailed = 24,
-  gpuErrorArrayIsMapped = 25,
-  gpuErrorAlreadyMapped = 26,
-  gpuErrorNoBinaryForGpu = 27,
-  gpuErrorAlreadyAcquired = 28,
-  gpuErrorNotMapped = 29,
-  gpuErrorNotMappedAsArray = 30,
-  gpuErrorNotMappedAsPointer = 31,
-  gpuErrorECCNotCorrectable = 32,
-  gpuErrorUnsupportedLimit = 33,
-  gpuErrorContextAlreadyInUse = 34,
-  gpuErrorPeerAccessUnsupported = 35,
-  gpuErrorInvalidKernelFile = 36,
-  gpuErrorInvalidGraphicsContext = 37,
-  gpuErrorInvalidSource = 38,
-  gpuErrorFileNotFound = 39,
-  gpuErrorSharedObjectSymbolNotFound = 40,
-  gpuErrorSharedObjectInitFailed = 41,
-  gpuErrorOperatingSystem = 42,
-  gpuErrorInvalidHandle = 43,
-  gpuErrorIllegalState = 44,
-  gpuErrorNotFound = 45,
-  gpuErrorNotReady = 46,
-  gpuErrorIllegalAddress = 47,
-  gpuErrorLaunchOutOfResources = 48,
-  gpuErrorLaunchTimeOut = 49,
-  gpuErrorPeerAccessAlreadyEnabled = 50,
-  gpuErrorPeerAccessNotEnabled = 51,
-  gpuErrorSetOnActiveProcess = 52,
-  gpuErrorContextIsDestroyed = 53,
-  gpuErrorAssert = 54,
-  gpuErrorHostMemoryAlreadyRegistered = 55,
-  gpuErrorHostMemoryNotRegistered = 56,
-  gpuErrorLaunchFailure = 57,
-  gpuErrorCooperativeLaunchTooLarge = 58,
-  gpuErrorNotSupported = 59,
-  gpuErrorStreamCaptureUnsupported = 60,
-  gpuErrorStreamCaptureInvalidated = 61,
-  gpuErrorStreamCaptureMerge = 62,
-  gpuErrorStreamCaptureUnmatched = 63,
-  gpuErrorStreamCaptureUnjoined = 64,
-  gpuErrorStreamCaptureIsolation = 65,
-  gpuErrorStreamCaptureImplicit = 66,
-  gpuErrorCapturedEvent = 67,
-  gpuErrorStreamCaptureWrongThread = 68,
-  gpuErrorGraphExecUpdateFailure = 69,
+enum class GpuError {
+  success = 0,
+  invalidValue = 1,
+  outOfMemory = 2,
+  notInitialized = 3,
+  deinitialized = 4,
+  profilerDisabled = 5,
+  profilerNotInitialized = 6,
+  profilerAlreadyStarted = 7,
+  profilerAlreadyStopped = 8,
+  invalidConfiguration = 9,
+  invalidPitchValue = 10,
+  invalidSymbol = 11,
+  invalidDevicePointer = 12,
+  invalidMemcpyDirection = 13,
+  insufficientDriver = 14,
+  missingConfiguration = 15,
+  priorLaunchFailure = 16,
+  invalidDeviceFunction = 17,
+  noDevice = 18,
+  invalidDevice = 19,
+  invalidImage = 20,
+  invalidContext = 21,
+  contextAlreadyCurrent = 22,
+  mapFailed = 23,
+  unmapFailed = 24,
+  arrayIsMapped = 25,
+  alreadyMapped = 26,
+  noBinaryForGpu = 27,
+  alreadyAcquired = 28,
+  notMapped = 29,
+  notMappedAsArray = 30,
+  notMappedAsPointer = 31,
+  eccNotCorrectable = 32,
+  unsupportedLimit = 33,
+  contextAlreadyInUse = 34,
+  peerAccessUnsupported = 35,
+  invalidKernelFile = 36,
+  invalidGraphicsContext = 37,
+  invalidSource = 38,
+  fileNotFound = 39,
+  sharedObjectSymbolNotFound = 40,
+  sharedObjectInitFailed = 41,
+  operatingSystem = 42,
+  invalidHandle = 43,
+  illegalState = 44,
+  notFound = 45,
+  notReady = 46,
+  illegalAddress = 47,
+  launchOutOfResources = 48,
+  launchTimeOut = 49,
+  peerAccessAlreadyEnabled = 50,
+  peerAccessNotEnabled = 51,
+  setOnActiveProcess = 52,
+  contextIsDestroyed = 53,
+  assert = 54,
+  hostMemoryAlreadyRegistered = 55,
+  hostMemoryNotRegistered = 56,
+  launchFailure = 57,
+  cooperativeLaunchTooLarge = 58,
+  notSupported = 59,
+  streamCaptureUnsupported = 60,
+  streamCaptureInvalidated = 61,
+  streamCaptureMerge = 62,
+  streamCaptureUnmatched = 63,
+  streamCaptureUnjoined = 64,
+  streamCaptureIsolation = 65,
+  streamCaptureImplicit = 66,
+  capturedEvent = 67,
+  streamCaptureWrongThread = 68,
+  graphExecUpdateFailure = 69,
 
   gpuErrorUnknown = 999
 };
 
-enum class gpuMemcpyKind {
-  gpuMemcpyHostToHost = 0,
-  gpuMemcpyHostToDevice = 1,
-  gpuMemcpyDeviceToHost = 2,
-  gpuMemcpyDeviceToDevice = 3,
-  gpuMemcpyDefault = 4,
+enum class GpuMemcpyKind {
+  hostToHost = 0,
+  hostToDevice = 1,
+  deviceToHost = 2,
+  deviceToDevice = 3,
+  memcpyDefault = 4,
+};
+
+class GpuStream {
+ public:
+  explicit GpuStream();
+  ~GpuStream();
+  GpuStream(const GpuStream&) = delete;
+  GpuStream& operator=(const GpuStream&) = delete;
+  GpuStream(GpuStream&&) = default;
+  GpuStream& operator=(GpuStream&&) = default;
+  void* operator*() const { return handle_; };
+
+ private:
+  void* handle_;
 };
 
 // Device management
 
-GPU_MATE_API gpuError_t gpuGetDevice(int* id);
+GPU_MATE_API GpuError GpuGetDevice(int* id);
 
-GPU_MATE_API gpuError_t gpuSetDevice(int id);
+GPU_MATE_API GpuError GpuSetDevice(int id);
 
-GPU_MATE_API gpuError_t gpuGetDeviceCount(int* count);
+GPU_MATE_API GpuError GpuGetDeviceCount(int* count);
 
-GPU_MATE_API gpuError_t gpuDeviceSynchronize();
+GPU_MATE_API GpuError GpuDeviceSynchronize();
 
-GPU_MATE_API gpuError_t gpuDeviceReset();
+GPU_MATE_API GpuError GpuDeviceReset();
 
 // Error handling
 
-GPU_MATE_API gpuError_t gpuGetLastError();
+GPU_MATE_API GpuError GpuGetLastError();
 
-GPU_MATE_API gpuError_t gpuPeekAtLastError();
+GPU_MATE_API GpuError GpuPeekAtLastError();
 
-GPU_MATE_API const char* gpuGetErrorName(gpuError_t error);
+GPU_MATE_API const char* GpuGetErrorName(GpuError error);
 
-GPU_MATE_API const char* gpuGetErrorString(gpuError_t error);
+GPU_MATE_API const char* GpuGetErrorString(GpuError error);
 
 // Memory management
 
-GPU_MATE_API gpuError_t gpuMalloc(void** ptr, const size_t size);
+GPU_MATE_API GpuError GpuMalloc(void** ptr, const size_t size);
 
-GPU_MATE_API gpuError_t gpuMemcpy(void* dst, const void* src, const size_t size,
-                                  const gpuMemcpyKind copy_kind);
+GPU_MATE_API GpuError GpuMemcpy(void* dst, const void* src, const size_t size,
+                                const GpuMemcpyKind copy_kind);
 
-GPU_MATE_API gpuError_t gpuFree(void* ptr);
+GPU_MATE_API GpuError GpuFree(void* ptr);
 
 }  // namespace runtime
 }  // namespace gpu_mate

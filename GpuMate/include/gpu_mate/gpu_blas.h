@@ -1,5 +1,6 @@
 #pragma once
 
+#include "gpu_mate/gpu_runtime.h"
 #include "gpu_mate/internal/defines.h"
 #include "gpu_mate/internal/utils.h"
 
@@ -9,7 +10,8 @@ class GpuBlasHandle {
  public:
   static GpuBlasHandle Create();
   ~GpuBlasHandle();
-  void* operator*();
+  void SetStream(const gpu_mate::runtime::GpuStream& stream);
+  void* operator*() const { return handle_; }
 
  private:
   explicit GpuBlasHandle();
