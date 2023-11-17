@@ -12,3 +12,14 @@ install(
   NAMESPACE GpuMate::
   DESTINATION lib/cmake/GpuMate
 )
+
+install(
+  DIRECTORY "${PROJECT_SOURCE_DIR}/GpuMate/include/gpu_mate"
+  DESTINATION include
+)
+
+install(
+  FILES "${PROJECT_SOURCE_DIR}/cmake/InstallConfig.cmake"
+  DESTINATION "lib/cmake/GpuMate"
+  RENAME "${PROJECT_NAME}Config.cmake"
+)
