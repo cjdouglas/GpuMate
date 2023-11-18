@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstddef>
+
 #include "gpu_mate/internal/defines.h"
 
 namespace gpu_mate {
@@ -126,10 +128,10 @@ GPU_MATE_API const char* GpuGetErrorString(GpuError error);
 
 // Memory management
 
-GPU_MATE_API GpuError GpuMalloc(void** ptr, const size_t size);
+GPU_MATE_API GpuError GpuMalloc(void** ptr, size_t size);
 
-GPU_MATE_API GpuError GpuMemcpy(void* dst, const void* src, const size_t size,
-                                const GpuMemcpyKind copy_kind);
+GPU_MATE_API GpuError GpuMemcpy(void* dst, const void* src, size_t size,
+                                GpuMemcpyKind copy_kind);
 
 GPU_MATE_API GpuError GpuFree(void* ptr);
 
