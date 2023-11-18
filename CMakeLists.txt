@@ -1,6 +1,4 @@
-﻿# CMakeList.txt : Top-level CMake project file
-#
-cmake_minimum_required (VERSION 3.21)
+﻿cmake_minimum_required (VERSION 3.21)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 include(Prelude)

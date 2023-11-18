@@ -1,0 +1,3 @@
+@GM_BUILD_DEPENDENCIES@
+
+include("${CMAKE_CURRENT_LIST_DIR}/GpuMateTargets.cmake")
