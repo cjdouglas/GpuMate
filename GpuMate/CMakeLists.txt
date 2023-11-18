@@ -8,7 +8,7 @@ endif()
 
 set(
   SOURCES
-  src/utility/gpu_buffer.cc
+  src/utility/device_buffer.cc
 )
 
 if (GM_VENDOR STREQUAL "AMD")

@@ -1,10 +1,15 @@
 #include <gtest/gtest.h>
+#include <hip/hip_runtime.h>
+#include <rocblas/rocblas.h>
 
 #include "gpu_mate/gpu_blas.h"
-#include "gpu_mate/utility/gpu_buffer.h"
+#include "gpu_mate/gpu_runtime.h"
+#include "gpu_mate/utility/device_buffer.h"
 
 using namespace gpu_mate::blas;
-using gpu_mate::utility::GpuBuffer;
+using gpu_mate::runtime::GpuError;
+using gpu_mate::runtime::GpuMemcpyKind;
+using gpu_mate::utility::DeviceBuffer;
 
 TEST(TestBlas, TestSgemm) {
   GpuBlasHandle handle = GpuBlasHandle::Create();
@@ -17,24 +22,26 @@ TEST(TestBlas, TestSgemm) {
   const int lda = m;
   const int ldb = k;
   const int ldc = m;
-  const float A[] = {1, 2, 3, 4, 5, 6};
-  const float B[] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
-  float C[m * n] = {-1, -1, -1, -1, -1, -1};
+  const float A[m * k] = {1, 4, 2, 5, 3, 6};
+  const float B[k * n] = {1, 4, 7, 2, 5, 8, 3, 6, 9};
+  float C[m * n] = {};
 
-  GpuBuffer gpuA;
-  GpuBuffer gpuB;
-  GpuBuffer gpuC;
-  gpuA.CopyFrom(A, m * k * sizeof(float), GpuMemcpyKind::hostToDevice);
-  gpuB.CopyFrom(B, k * n * sizeof(float), GpuMemcpyKind::hostToDevice);
-  gpuC.CopyFrom(C, m * n * sizeof(float), GpuMemcpyKind::hostToDevice);
+  const DeviceBuffer& gpu_A = DeviceBuffer::FromHost(A, m * k * sizeof(float));
+  const DeviceBuffer& gpu_B = DeviceBuffer::FromHost(B, k * n * sizeof(float));
+  DeviceBuffer gpu_C(m * n * sizeof(float));
+
+  const float* da = gpu_A.TypedHandle<float>();
+  const float* db = gpu_B.TypedHandle<float>();
+  float* dc = gpu_C.TypedHandle<float>();
 
   const GpuBlasStatus status =
-      sgemm(handle, GpuOperation::none, GpuOperation::none, m, n, k, &alpha, A,
-            lda, B, ldb, &beta, C, ldc);
+      sgemm(handle, GpuOperation::none, GpuOperation::none, m, n, k, &alpha, da,
+            lda, db, ldb, &beta, dc, ldc);
   EXPECT_EQ(status, GpuBlasStatus::success);
+  EXPECT_EQ(gpu_C.CopyTo(C, GpuMemcpyKind::deviceToHost), GpuError::success);
 
-  const float expected[m * n] = {30, 36, 42, 66, 81, 96};
-  for (int i = 0; i < m * n; ++i) {
+  const float expected[m * n] = {30, 66, 36, 81, 42, 96};
+  for (size_t i = 0; i < m * n; ++i) {
     EXPECT_FLOAT_EQ(C[i], expected[i]);
   }
 }
