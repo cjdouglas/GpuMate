@@ -10,6 +10,10 @@ class GpuBlasHandle {
  public:
   static GpuBlasHandle Create();
   ~GpuBlasHandle();
+  GpuBlasHandle(const GpuBlasHandle&) = delete;
+  GpuBlasHandle& operator=(const GpuBlasHandle&) = delete;
+  GpuBlasHandle(GpuBlasHandle&&) = default;
+  GpuBlasHandle& operator=(GpuBlasHandle&&) = default;
   void SetStream(const gpu_mate::runtime::GpuStream& stream);
   void* operator*() const { return handle_; }
 

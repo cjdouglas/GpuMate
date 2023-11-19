@@ -41,7 +41,8 @@ target_include_directories(
   GpuMate 
   PUBLIC 
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-  $<INSTALL_INTERFACE:include>)
+  $<INSTALL_INTERFACE:include>
+)
 
 # Vendor specific configuration
 
