@@ -66,8 +66,6 @@ GpuBlasHandle::~GpuBlasHandle() {
   cublasDestroy_v2(handle);
 }
 
-GpuBlasHandle GpuBlasHandle::Create() { return GpuBlasHandle(); }
-
 void GpuBlasHandle::SetStream(const gpu_mate::runtime::GpuStream& stream) {
   cublasHandle_t blas_handle = static_cast<cublasHandle_t>(handle_);
   cudaStream_t stream_handle = static_cast<cudaStream_t>(*stream);
@@ -76,7 +74,7 @@ void GpuBlasHandle::SetStream(const gpu_mate::runtime::GpuStream& stream) {
 
 // Start BLAS functions
 
-GpuBlasStatus sgemm(GpuBlasHandle& handle, GpuOperation transA,
+GpuBlasStatus sgemm(const GpuBlasHandle& handle, GpuOperation transA,
                     GpuOperation transB, int m, int n, int k,
                     const float* alpha, const float* A, int lda, const float* B,
                     int ldb, const float* beta, float* C, int ldc) {

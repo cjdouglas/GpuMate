@@ -363,6 +363,13 @@ const char* GpuGetErrorString(GpuError error) {
   return hipGetErrorString(GpuToHipError(error));
 }
 
+// Stream management
+
+GpuError GpuStreamSynchronize(const GpuStream& stream) {
+  hipStream_t handle = static_cast<hipStream_t>(*stream);
+  return HipToGpuError(hipStreamSynchronize(handle));
+}
+
 // Memory management
 
 GpuError GpuMalloc(void** ptr, const size_t size) {
@@ -372,6 +379,13 @@ GpuError GpuMalloc(void** ptr, const size_t size) {
 GpuError GpuMemcpy(void* dst, const void* src, const size_t size,
                    const GpuMemcpyKind copy_kind) {
   return HipToGpuError(hipMemcpy(dst, src, size, MapMemcpyKind(copy_kind)));
+}
+
+GpuError GpuMemcpyAsync(void* dst, const void* src, size_t size,
+                        GpuMemcpyKind copy_kind, const GpuStream& stream) {
+  hipStream_t handle = static_cast<hipStream_t>(*stream);
+  return HipToGpuError(
+      hipMemcpyAsync(dst, src, size, MapMemcpyKind(copy_kind), handle));
 }
 
 GpuError GpuFree(void* ptr) { return HipToGpuError(hipFree(ptr)); }

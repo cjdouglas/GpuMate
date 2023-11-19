@@ -1,6 +1,4 @@
 #include <gtest/gtest.h>
-#include <hip/hip_runtime.h>
-#include <rocblas/rocblas.h>
 
 #include "gpu_mate/gpu_blas.h"
 #include "gpu_mate/gpu_runtime.h"
@@ -12,7 +10,7 @@ using gpu_mate::runtime::GpuMemcpyKind;
 using gpu_mate::utility::DeviceBuffer;
 
 TEST(TestBlas, TestSgemm) {
-  GpuBlasHandle handle = GpuBlasHandle::Create();
+  GpuBlasHandle handle;
 
   const int m = 2;
   const int n = 3;
@@ -38,7 +36,7 @@ TEST(TestBlas, TestSgemm) {
       sgemm(handle, GpuOperation::none, GpuOperation::none, m, n, k, &alpha, da,
             lda, db, ldb, &beta, dc, ldc);
   EXPECT_EQ(status, GpuBlasStatus::success);
-  EXPECT_EQ(gpu_C.CopyTo(C, GpuMemcpyKind::deviceToHost), GpuError::success);
+  EXPECT_EQ(gpu_C.CopyToHost(C), GpuError::success);
 
   const float expected[m * n] = {30, 66, 36, 81, 42, 96};
   for (size_t i = 0; i < m * n; ++i) {

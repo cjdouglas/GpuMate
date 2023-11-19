@@ -59,8 +59,6 @@ GpuBlasHandle::~GpuBlasHandle() {
   rocblas_destroy_handle(handle);
 }
 
-GpuBlasHandle GpuBlasHandle::Create() { return GpuBlasHandle(); }
-
 void GpuBlasHandle::SetStream(const gpu_mate::runtime::GpuStream& stream) {
   rocblas_handle blas_handle = static_cast<rocblas_handle>(handle_);
   hipStream_t stream_handle = static_cast<hipStream_t>(*stream);
@@ -69,7 +67,7 @@ void GpuBlasHandle::SetStream(const gpu_mate::runtime::GpuStream& stream) {
 
 // Start BLAS functions
 
-GpuBlasStatus sgemm(GpuBlasHandle& handle, GpuOperation transA,
+GpuBlasStatus sgemm(const GpuBlasHandle& handle, GpuOperation transA,
                     GpuOperation transB, int m, int n, int k,
                     const float* alpha, const float* A, int lda, const float* B,
                     int ldb, const float* beta, float* C, int ldc) {

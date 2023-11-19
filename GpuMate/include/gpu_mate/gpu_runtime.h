@@ -126,12 +126,20 @@ GPU_MATE_API const char* GpuGetErrorName(GpuError error);
 
 GPU_MATE_API const char* GpuGetErrorString(GpuError error);
 
+// Stream management
+
+GPU_MATE_API GpuError GpuStreamSynchronize(const GpuStream& stream);
+
 // Memory management
 
 GPU_MATE_API GpuError GpuMalloc(void** ptr, size_t size);
 
 GPU_MATE_API GpuError GpuMemcpy(void* dst, const void* src, size_t size,
                                 GpuMemcpyKind copy_kind);
+
+GPU_MATE_API GpuError GpuMemcpyAsync(void* dst, const void* src, size_t size,
+                                     GpuMemcpyKind copy_kind,
+                                     const GpuStream& stream);
 
 GPU_MATE_API GpuError GpuFree(void* ptr);
 

@@ -8,7 +8,7 @@ namespace gpu_mate {
 namespace blas {
 class GpuBlasHandle {
  public:
-  static GpuBlasHandle Create();
+  explicit GpuBlasHandle();
   ~GpuBlasHandle();
   GpuBlasHandle(const GpuBlasHandle&) = delete;
   GpuBlasHandle& operator=(const GpuBlasHandle&) = delete;
@@ -18,7 +18,6 @@ class GpuBlasHandle {
   void* operator*() const { return handle_; }
 
  private:
-  explicit GpuBlasHandle();
   void* handle_;
 };
 
@@ -41,10 +40,10 @@ enum GpuBlasStatus {
   unknown = 99,
 };
 
-GPU_MATE_API GpuBlasStatus sgemm(GpuBlasHandle& handle, GpuOperation transA,
-                                 GpuOperation transB, int m, int n, int k,
-                                 const float* alpha, const float* A, int lda,
-                                 const float* B, int ldb, const float* beta,
-                                 float* C, int ldc);
+GPU_MATE_API GpuBlasStatus sgemm(const GpuBlasHandle& handle,
+                                 GpuOperation transA, GpuOperation transB,
+                                 int m, int n, int k, const float* alpha,
+                                 const float* A, int lda, const float* B,
+                                 int ldb, const float* beta, float* C, int ldc);
 }  // namespace blas
 }  // namespace gpu_mate

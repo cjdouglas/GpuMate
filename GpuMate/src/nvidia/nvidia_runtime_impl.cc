@@ -367,6 +367,13 @@ const char* GpuGetErrorString(GpuError error) {
   return cudaGetErrorString(GpuToCudaError(error));
 }
 
+// Stream management
+
+GpuError GpuStreamSynchronize(const GpuStream& stream) {
+  cudaStream_t handle = static_cast<cudaStream_t>(*stream);
+  return CudaToGpuError(cudaStreamSynchronize(handle));
+}
+
 // Memory management
 
 GpuError GpuMalloc(void** ptr, const size_t size) {
@@ -376,6 +383,13 @@ GpuError GpuMalloc(void** ptr, const size_t size) {
 GpuError GpuMemcpy(void* dst, const void* src, const size_t size,
                    const GpuMemcpyKind copy_kind) {
   return CudaToGpuError(cudaMemcpy(dst, src, size, MapMemcpyKind(copy_kind)));
+}
+
+GpuError GpuMemcpyAsync(void* dst, const void* src, size_t size,
+                        GpuMemcpyKind copy_kind, const GpuStream& stream) {
+  cudaStream_t handle = static_cast<cudaStream_t>(*stream);
+  return CudaToGpuError(
+      cudaMemcpyAsync(dst, src, size, MapMemcpyKind(copy_kind), handle));
 }
 
 GpuError GpuFree(void* ptr) { return CudaToGpuError(cudaFree(ptr)); }
