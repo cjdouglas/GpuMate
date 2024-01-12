@@ -17,7 +17,7 @@ class DeviceBuffer {
   explicit DeviceBuffer(size_t size);
   DeviceBuffer(const DeviceBuffer&) = delete;
   DeviceBuffer& operator=(const DeviceBuffer&) = delete;
-  DeviceBuffer(DeviceBuffer&&) noexcept;
+  DeviceBuffer(DeviceBuffer&&) = default;
   DeviceBuffer& operator=(DeviceBuffer&&) noexcept;
   ~DeviceBuffer();
 

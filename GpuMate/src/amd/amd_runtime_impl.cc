@@ -1,5 +1,7 @@
 #include <hip/hip_runtime.h>
 
+#include <iostream>
+
 #include "gpu_mate/gpu_runtime.h"
 #include "gpu_mate/internal/utils.h"
 
@@ -376,6 +378,11 @@ GpuError GpuMalloc(void** ptr, const size_t size) {
   return HipToGpuError(hipMalloc(ptr, size));
 }
 
+GpuError GpuMallocHost(void** ptr, const size_t size) {
+  hipError_t err = hipHostMalloc(ptr, size);
+  return HipToGpuError(err);
+}
+
 GpuError GpuMemcpy(void* dst, const void* src, const size_t size,
                    const GpuMemcpyKind copy_kind) {
   return HipToGpuError(hipMemcpy(dst, src, size, MapMemcpyKind(copy_kind)));
@@ -389,6 +396,8 @@ GpuError GpuMemcpyAsync(void* dst, const void* src, size_t size,
 }
 
 GpuError GpuFree(void* ptr) { return HipToGpuError(hipFree(ptr)); }
+
+GpuError GpuFreeHost(void* ptr) { return HipToGpuError(hipHostFree(ptr)); }
 
 }  // namespace runtime
 }  // namespace gpu_mate

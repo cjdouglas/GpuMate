@@ -6,12 +6,11 @@
       "hidden": true,
       "generator": "Ninja",
       "binaryDir": "${sourceDir}/out/build/${presetName}",
-      "installDir": "${sourceDir}/out/install/${presetName}",
       "cacheVariables": {
         "CMAKE_C_COMPILER": "cl.exe",
         "CMAKE_CXX_COMPILER": "cl.exe",
         "BUILD_SHARED_LIBS": "OFF",
-        "GM_VENDOR": "NVIDIA",
+        "GM_VENDOR": "AMD",
         "GM_BUILD_TESTS": "ON"
       },
       "condition": {

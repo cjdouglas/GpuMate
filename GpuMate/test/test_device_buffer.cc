@@ -18,11 +18,6 @@ TEST(DeviceBufferTest, TestConstructors) {
   EXPECT_TRUE(allocated.Initialized());
   EXPECT_NE(allocated.Handle(), nullptr);
   EXPECT_EQ(allocated.Size(), 4);
-
-  DeviceBuffer moved(DeviceBuffer(8));
-  EXPECT_TRUE(moved.Initialized());
-  EXPECT_NE(moved.Handle(), nullptr);
-  EXPECT_EQ(moved.Size(), 8);
 }
 
 TEST(DeviceBufferTest, TestMove) {

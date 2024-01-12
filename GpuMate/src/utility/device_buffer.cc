@@ -52,11 +52,6 @@ DeviceBuffer::DeviceBuffer(const size_t size) {
   Alloc(size);
 }
 
-DeviceBuffer::DeviceBuffer(DeviceBuffer&& other) noexcept
-    : handle_(std::exchange(other.handle_, nullptr)),
-      size_(std::exchange(other.size_, 0)),
-      initialized_(std::exchange(other.initialized_, false)) {}
-
 DeviceBuffer& DeviceBuffer::operator=(DeviceBuffer&& other) noexcept {
   if (this == &other) {
     return *this;

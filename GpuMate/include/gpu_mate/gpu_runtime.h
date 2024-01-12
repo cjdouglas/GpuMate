@@ -134,6 +134,8 @@ GPU_MATE_API GpuError GpuStreamSynchronize(const GpuStream& stream);
 
 GPU_MATE_API GpuError GpuMalloc(void** ptr, size_t size);
 
+GPU_MATE_API GpuError GpuMallocHost(void** ptr, size_t size);
+
 GPU_MATE_API GpuError GpuMemcpy(void* dst, const void* src, size_t size,
                                 GpuMemcpyKind copy_kind);
 
@@ -142,6 +144,8 @@ GPU_MATE_API GpuError GpuMemcpyAsync(void* dst, const void* src, size_t size,
                                      const GpuStream& stream);
 
 GPU_MATE_API GpuError GpuFree(void* ptr);
+
+GPU_MATE_API GpuError GpuFreeHost(void* ptr);
 
 }  // namespace runtime
 }  // namespace gpu_mate

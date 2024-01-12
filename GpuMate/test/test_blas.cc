@@ -33,8 +33,8 @@ TEST(TestBlas, TestSgemm) {
   float* dc = gpu_C.TypedHandle<float>();
 
   const GpuBlasStatus status =
-      sgemm(handle, GpuOperation::none, GpuOperation::none, m, n, k, &alpha, da,
-            lda, db, ldb, &beta, dc, ldc);
+      gm_sgemm(handle, GpuOperation::none, GpuOperation::none, m, n, k, &alpha,
+               da, lda, db, ldb, &beta, dc, ldc);
   EXPECT_EQ(status, GpuBlasStatus::success);
   EXPECT_EQ(gpu_C.CopyToHost(C), GpuError::success);
 

@@ -8,6 +8,7 @@ set(
   TEST_SOURCES 
   test_blas.cc
   test_device_buffer.cc
+  test_gpu_buffer.cc
   test_runtime_error.cc
   test_runtime_device.cc 
   test_runtime_memory.cc

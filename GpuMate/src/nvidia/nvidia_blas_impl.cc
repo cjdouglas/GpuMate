@@ -74,10 +74,11 @@ void GpuBlasHandle::SetStream(const gpu_mate::runtime::GpuStream& stream) {
 
 // Start BLAS functions
 
-GpuBlasStatus sgemm(const GpuBlasHandle& handle, GpuOperation transA,
-                    GpuOperation transB, int m, int n, int k,
-                    const float* alpha, const float* A, int lda, const float* B,
-                    int ldb, const float* beta, float* C, int ldc) {
+GpuBlasStatus gm_sgemm(const GpuBlasHandle& handle, GpuOperation transA,
+                       GpuOperation transB, int m, int n, int k,
+                       const float* alpha, const float* A, int lda,
+                       const float* B, int ldb, const float* beta, float* C,
+                       int ldc) {
   const cublasHandle_t _handle = static_cast<cublasHandle_t>(*handle);
   const cublasOperation_t _transA = GpuToCudaOperation(transA);
   const cublasOperation_t _transB = GpuToCudaOperation(transB);
